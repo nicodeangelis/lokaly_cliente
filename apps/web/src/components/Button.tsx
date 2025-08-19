@@ -1,44 +1,21 @@
 import React from 'react'
 
-type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary'|'secondary'|'ghost' }
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & { 
+  variant?: 'primary'|'secondary'|'ghost' 
+}
+
 export function Button({ variant='primary', className='', ...props }: Props){
-  const base = 'px-6 py-4 rounded-2xl text-sm font-bold disabled:opacity-60 disabled:pointer-events-none transition-all duration-300 hover:scale-105 active:scale-95';
+  const baseClasses = 'px-6 py-3 rounded-lg font-medium text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2'
   
-  const getStyle = () => {
-    switch(variant) {
-      case 'primary':
-        return {
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white',
-          boxShadow: '0 10px 30px -10px rgba(102, 126, 234, 0.5), 0 4px 15px -5px rgba(0, 0, 0, 0.1)',
-          border: 'none',
-          position: 'relative',
-          overflow: 'hidden'
-        }
-      case 'secondary':
-        return {
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%)',
-          color: '#667eea',
-          boxShadow: '0 8px 25px -5px rgba(255,255,255,0.3), 0 4px 15px -5px rgba(0, 0, 0, 0.1)',
-          border: '1px solid rgba(255,255,255,0.3)',
-          backdropFilter: 'blur(10px)'
-        }
-      case 'ghost':
-        return {
-          background: 'transparent',
-          color: '#667eea',
-          boxShadow: 'none',
-          border: 'none'
-        }
-      default:
-        return {}
-    }
+  const variantClasses = {
+    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    secondary: 'bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500',
+    ghost: 'bg-transparent text-blue-600 hover:bg-blue-50 focus:ring-blue-500'
   }
   
   return (
-    <button 
-      className={`${base} ${className}`} 
-      style={getStyle()} 
+    <button
+      className={`${baseClasses} ${variantClasses[variant]} ${className}`}
       {...props}
     />
   )
