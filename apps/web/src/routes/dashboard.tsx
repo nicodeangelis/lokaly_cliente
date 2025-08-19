@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import { supabase } from '../lib/supabase'
 import AppShell from '../components/AppShell'
 import { BottomNav } from '../components/BottomNav'
@@ -21,22 +22,56 @@ export default function Dashboard(){
 
   return (
     <AppShell title="Lokaly" points={me?.puntos}>
-      <section className="space-y-4 py-4">
-        <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 text-white rounded-2xl p-5 shadow-lg">
+      <motion.section 
+        initial={{opacity:0,y:8}} 
+        animate={{opacity:1,y:0}} 
+        transition={{duration:.2}}
+        className="space-y-4 py-4"
+      >
+        <motion.div 
+          initial={{scale:0.95,opacity:0}}
+          animate={{scale:1,opacity:1}}
+          transition={{delay:0.1,duration:0.3}}
+          className="bg-gradient-to-br from-indigo-500 to-indigo-600 text-white rounded-2xl p-5 shadow-lg"
+        >
           <div className="text-sm opacity-90">Tu nivel</div>
           <div className="text-2xl font-bold capitalize">{me?.nivel ?? 'bronce'}</div>
-          <div className="mt-3 h-2 bg-white/30 rounded-full">
-            <div className="h-full bg-white rounded-full" style={{width: `${Math.min(100, Math.round(((me?.puntos||0)%300)/3))}%`}}/>
+          <div className="mt-3 h-2 bg-white/30 rounded-full overflow-hidden">
+            <motion.div 
+              className="h-full bg-white rounded-full"
+              initial={{width:0}}
+              animate={{width: `${Math.min(100, Math.round(((me?.puntos||0)%300)/3))}%`}}
+              transition={{delay:0.3,duration:0.8,ease:"easeOut"}}
+            />
           </div>
-          <div className="mt-4"><Button variant="secondary" className="bg-white text-indigo-700" onClick={()=>nav('/app/benefits')}>Ver beneficios</Button></div>
-        </div>
+          <div className="mt-4">
+            <Button variant="secondary" className="bg-white text-indigo-700" onClick={()=>nav('/app/benefits')}>
+              Ver beneficios
+            </Button>
+          </div>
+        </motion.div>
 
-        <Card className="p-4">
-          <div className="text-sm text-gray-500">Puntos</div>
-          <div className="text-3xl font-bold">{me?.puntos ?? 0}</div>
-          <Button className="mt-3 w-full" onClick={()=>nav('/app/scan')}>Escanear QR</Button>
-        </Card>
-      </section>
+        <motion.div
+          initial={{scale:0.95,opacity:0}}
+          animate={{scale:1,opacity:1}}
+          transition={{delay:0.2,duration:0.3}}
+        >
+          <Card className="p-4">
+            <div className="text-sm text-gray-500">Puntos</div>
+            <motion.div 
+              className="text-3xl font-bold"
+              initial={{scale:0.8}}
+              animate={{scale:1}}
+              transition={{delay:0.4,duration:0.3}}
+            >
+              {me?.puntos ?? 0}
+            </motion.div>
+            <Button className="mt-3 w-full" onClick={()=>nav('/app/scan')}>
+              Escanear QR
+            </Button>
+          </Card>
+        </motion.div>
+      </motion.section>
       <BottomNav/>
     </AppShell>
   )

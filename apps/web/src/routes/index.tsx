@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { supabase } from '../lib/supabase'
 import { useEffect, useState } from 'react'
 import AppShell from '../components/AppShell'
@@ -30,14 +31,40 @@ export default function Index(){
 
   return (
     <AppShell title={local?.nombre || 'Lokaly'}>
-      <section className="py-6">
-        <Card className="p-5">
-          <div className="text-sm text-gray-500">Bienvenido</div>
-          <h1 className="text-2xl font-bold">{local?.nombre ?? 'Local'}</h1>
-          <p className="mt-1 text-sm">Registrá tu visita y obtené tu beneficio de bienvenida.</p>
-          <Button className="mt-4 w-full" onClick={login}>Ingresar / Registrarme</Button>
-        </Card>
-      </section>
+      <motion.section 
+        initial={{opacity:0,y:8}} 
+        animate={{opacity:1,y:0}} 
+        transition={{duration:.2}}
+        className="py-6"
+      >
+        <motion.div
+          initial={{scale:0.95,opacity:0}}
+          animate={{scale:1,opacity:1}}
+          transition={{delay:0.1,duration:0.3}}
+        >
+          <Card className="p-5">
+            <div className="text-sm text-gray-500">Bienvenido</div>
+            <motion.h1 
+              className="text-2xl font-bold"
+              initial={{scale:0.9}}
+              animate={{scale:1}}
+              transition={{delay:0.2,duration:0.3}}
+            >
+              {local?.nombre ?? 'Local'}
+            </motion.h1>
+            <p className="mt-1 text-sm">Registrá tu visita y obtené tu beneficio de bienvenida.</p>
+            <motion.div
+              initial={{y:10,opacity:0}}
+              animate={{y:0,opacity:1}}
+              transition={{delay:0.3,duration:0.3}}
+            >
+              <Button className="mt-4 w-full" onClick={login}>
+                Ingresar / Registrarme
+              </Button>
+            </motion.div>
+          </Card>
+        </motion.div>
+      </motion.section>
     </AppShell>
   )
 }

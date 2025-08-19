@@ -19,12 +19,17 @@ export default {
           500: '#334155' 
         },
         muted: '#f6f7fb',
-        card: '#ffffff'
+        card: '#ffffff',
+        success: '#10b981',
+        warning: '#f59e0b',
+        danger: '#ef4444'
       },
       boxShadow: {
         card: '0 6px 20px -8px rgb(2 6 23 / 20%)'
       },
       borderRadius: { 
+        md: '12px',
+        lg: '16px',
         xl: '24px' 
       }
     }
