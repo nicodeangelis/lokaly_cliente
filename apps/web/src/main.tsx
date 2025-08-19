@@ -7,6 +7,8 @@ import Index from './routes/index'
 import Dashboard from './routes/dashboard'
 import Scan from './routes/scan'
 import Staff from './routes/staff'
+import Benefits from './routes/benefits'
+import Profile from './routes/profile'
 import ErrorBoundary from './components/ErrorBoundary'
 import HomePage from './components/HomePage'
 
@@ -15,6 +17,8 @@ const router = createBrowserRouter([
   { path: '/l/:slug', element: <Index />, errorElement: <ErrorBoundary /> },
   { path: '/app/home', element: <Dashboard />, errorElement: <ErrorBoundary /> },
   { path: '/app/scan', element: <Scan />, errorElement: <ErrorBoundary /> },
+  { path: '/app/benefits', element: <Benefits />, errorElement: <ErrorBoundary /> },
+  { path: '/app/profile', element: <Profile />, errorElement: <ErrorBoundary /> },
   { path: '/staff', element: <Staff />, errorElement: <ErrorBoundary /> },
 ])
 
