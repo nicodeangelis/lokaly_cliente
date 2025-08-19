@@ -13,8 +13,14 @@ export default function Benefits() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
       
-      const { data: cliente } = await supabase.from('clientes').select('*').eq('email', user.email).single()
-      setMe(cliente)
+                        const { data: cliente } = await supabase.from('clientes').select('*').eq('email', user.email).maybeSingle()
+                  setMe(cliente || {
+                    email: user.email,
+                    nombre: user.email?.split('@')[0] || 'Usuario',
+                    apellido: '',
+                    puntos: 0,
+                    nivel: 'bronce'
+                  })
       
       const { data: beneficiosData } = await supabase
         .from('beneficios')

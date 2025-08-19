@@ -15,8 +15,44 @@ export default function Dashboard(){
     (async()=>{
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { nav('/l/cafe-palermo'); return; }
-      const { data } = await supabase.from('clientes').select('*').eq('email', user.email).single();
-      setMe(data)
+      
+      // Buscar el cliente existente
+      const { data: existingClient } = await supabase
+        .from('clientes')
+        .select('*')
+        .eq('email', user.email)
+        .maybeSingle();
+      
+      if (existingClient) {
+        setMe(existingClient);
+      } else {
+        // Crear nuevo cliente si no existe
+        const { data: newClient, error } = await supabase
+          .from('clientes')
+          .insert({
+            email: user.email,
+            nombre: user.email?.split('@')[0] || 'Usuario',
+            apellido: '',
+            puntos: 0,
+            nivel: 'bronce'
+          })
+          .select()
+          .single();
+        
+        if (error) {
+          console.error('Error creating client:', error);
+          // Mostrar datos por defecto
+          setMe({
+            email: user.email,
+            nombre: user.email?.split('@')[0] || 'Usuario',
+            apellido: '',
+            puntos: 0,
+            nivel: 'bronce'
+          });
+        } else {
+          setMe(newClient);
+        }
+      }
     })()
   },[])
 

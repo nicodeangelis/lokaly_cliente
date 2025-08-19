@@ -14,25 +14,33 @@ export default function Profile() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
       
-      const { data: cliente } = await supabase.from('clientes').select('*').eq('email', user.email).single()
-      setMe(cliente)
+                        const { data: cliente } = await supabase.from('clientes').select('*').eq('email', user.email).maybeSingle()
+                  setMe(cliente || {
+                    email: user.email,
+                    nombre: user.email?.split('@')[0] || 'Usuario',
+                    apellido: '',
+                    puntos: 0,
+                    nivel: 'bronce'
+                  })
       
-      if (cliente) {
-        const { data: visitasData } = await supabase
-          .from('visitas')
-          .select(`
-            *,
-            locales (
-              nombre,
-              slug
-            )
-          `)
-          .eq('cliente_id', cliente.id)
-          .order('creado_en', { ascending: false })
-          .limit(5)
-        
-        setVisitas(visitasData || [])
-      }
+                        if (cliente?.id) {
+                    const { data: visitasData } = await supabase
+                      .from('visitas')
+                      .select(`
+                        *,
+                        locales (
+                          nombre,
+                          slug
+                        )
+                      `)
+                      .eq('cliente_id', cliente.id)
+                      .order('creado_en', { ascending: false })
+                      .limit(5)
+
+                    setVisitas(visitasData || [])
+                  } else {
+                    setVisitas([])
+                  }
     })()
   }, [])
 
