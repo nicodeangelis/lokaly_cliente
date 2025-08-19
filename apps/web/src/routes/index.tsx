@@ -22,12 +22,40 @@ export default function Index(){
     }
   })() },[slug])
 
-  const login = async()=>{
-    const email = prompt('Email para magic link:') || ''
-    if (!email) return
-    await supabase.auth.signInWithOtp({ email })
-    alert('Te enviamos un mail para ingresar ✅')
-  }
+                const register = async()=>{
+                const email = prompt('Email para registrarte:') || ''
+                if (!email) return
+                
+                // Crear usuario directamente sin magic link
+                const { data, error } = await supabase.auth.signUp({
+                  email,
+                  password: 'temp123', // Contraseña temporal
+                })
+                
+                if (error) {
+                  alert('Error: ' + error.message)
+                  return
+                }
+                
+                // Crear cliente en la base de datos
+                const { error: clientError } = await supabase
+                  .from('clientes')
+                  .insert({
+                    email,
+                    nombre: email.split('@')[0],
+                    apellido: '',
+                    sexo: 'no_especificado',
+                    puntos: 0,
+                    nivel: 'bronce'
+                  })
+                
+                if (clientError) {
+                  console.error('Error creating client:', clientError)
+                }
+                
+                alert('¡Registro exitoso! Ya puedes usar la app ✅')
+                nav('/app/home')
+              }
 
   return (
     <AppShell title={local?.nombre || 'Lokaly'}>
@@ -53,15 +81,15 @@ export default function Index(){
               {local?.nombre ?? 'Local'}
             </motion.h1>
             <p className="mt-1 text-sm">Registrá tu visita y obtené tu beneficio de bienvenida.</p>
-            <motion.div
-              initial={{y:10,opacity:0}}
-              animate={{y:0,opacity:1}}
-              transition={{delay:0.3,duration:0.3}}
-            >
-              <Button className="mt-4 w-full" onClick={login}>
-                Ingresar / Registrarme
-              </Button>
-            </motion.div>
+                                    <motion.div
+                          initial={{y:10,opacity:0}}
+                          animate={{y:0,opacity:1}}
+                          transition={{delay:0.3,duration:0.3}}
+                        >
+                          <Button className="mt-4 w-full" onClick={register}>
+                            Registrarme
+                          </Button>
+                        </motion.div>
           </Card>
         </motion.div>
       </motion.section>

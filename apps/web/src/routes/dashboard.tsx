@@ -144,18 +144,32 @@ export default function Dashboard(){
                           >
                             {me?.puntos ?? 0}
                           </motion.div>
-                          <button 
-                            className="w-full px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
-                            style={{
-                              background: 'rgba(255,255,255,0.95)',
-                              color: '#f093fb',
-                              boxShadow: '0 8px 25px -5px rgba(255,255,255,0.3)',
-                              backdropFilter: 'blur(10px)'
-                            }}
-                            onClick={()=>nav('/app/scan')}
-                          >
-                            Escanear QR
-                          </button>
+                          <div className="grid grid-cols-2 gap-3">
+                            <button 
+                              className="px-4 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95 text-sm"
+                              style={{
+                                background: 'rgba(255,255,255,0.95)',
+                                color: '#f093fb',
+                                boxShadow: '0 8px 25px -5px rgba(255,255,255,0.3)',
+                                backdropFilter: 'blur(10px)'
+                              }}
+                              onClick={()=>nav('/app/locales')}
+                            >
+                              Ver Locales
+                            </button>
+                            <button 
+                              className="px-4 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95 text-sm"
+                              style={{
+                                background: 'rgba(255,255,255,0.95)',
+                                color: '#f093fb',
+                                boxShadow: '0 8px 25px -5px rgba(255,255,255,0.3)',
+                                backdropFilter: 'blur(10px)'
+                              }}
+                              onClick={()=>nav('/app/scan')}
+                            >
+                              Escanear QR
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </motion.div>

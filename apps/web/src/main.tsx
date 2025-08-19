@@ -9,6 +9,8 @@ import Scan from './routes/scan'
 import Staff from './routes/staff'
 import Benefits from './routes/benefits'
 import Profile from './routes/profile'
+import Locales from './routes/locales'
+import Historial from './routes/historial'
 import ErrorBoundary from './components/ErrorBoundary'
 import HomePage from './components/HomePage'
 
@@ -16,8 +18,10 @@ const router = createBrowserRouter([
   { path: '/', element: <HomePage />, errorElement: <ErrorBoundary /> },
   { path: '/l/:slug', element: <Index />, errorElement: <ErrorBoundary /> },
   { path: '/app/home', element: <Dashboard />, errorElement: <ErrorBoundary /> },
+  { path: '/app/locales', element: <Locales />, errorElement: <ErrorBoundary /> },
   { path: '/app/scan', element: <Scan />, errorElement: <ErrorBoundary /> },
   { path: '/app/benefits', element: <Benefits />, errorElement: <ErrorBoundary /> },
+  { path: '/app/historial', element: <Historial />, errorElement: <ErrorBoundary /> },
   { path: '/app/profile', element: <Profile />, errorElement: <ErrorBoundary /> },
   { path: '/staff', element: <Staff />, errorElement: <ErrorBoundary /> },
 ])

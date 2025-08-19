@@ -39,7 +39,7 @@ export function BottomNav(){
           )}
         </NavLink>
         <NavLink 
-          to="/app/benefits" 
+          to="/app/locales" 
           className={({isActive})=>`${link} ${isActive?'font-bold':''} transition-all duration-300`}
         >
           {({isActive}) => (
@@ -49,13 +49,13 @@ export function BottomNav(){
                 transform: isActive ? 'translateY(-2px)' : 'translateY(0)',
                 filter: isActive ? 'drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3))' : 'none'
               }}>
-                {<Gift size={24}/>}
+                {<MapPin size={24}/>}
               </div>
               <span style={{
                 color: isActive ? '#667eea' : '#9ca3af',
                 transform: isActive ? 'translateY(-2px)' : 'translateY(0)'
               }}>
-                Beneficios
+                Locales
               </span>
             </>
           )}
