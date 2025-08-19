@@ -19,54 +19,90 @@ export function BottomNav(){
         <NavLink 
           to="/app/home" 
           className={({isActive})=>`${link} ${isActive?'font-bold':''} transition-all duration-300`}
-          style={({isActive}) => ({
-            color: isActive ? '#667eea' : '#9ca3af',
-            transform: isActive ? 'translateY(-2px)' : 'translateY(0)'
-          })}
         >
-          <div style={{filter: isActive ? 'drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3))' : 'none'}}>
-            {<Home size={24}/>}
-          </div>
-          Inicio
+          {({isActive}) => (
+            <>
+              <div style={{
+                color: isActive ? '#667eea' : '#9ca3af',
+                transform: isActive ? 'translateY(-2px)' : 'translateY(0)',
+                filter: isActive ? 'drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3))' : 'none'
+              }}>
+                {<Home size={24}/>}
+              </div>
+              <span style={{
+                color: isActive ? '#667eea' : '#9ca3af',
+                transform: isActive ? 'translateY(-2px)' : 'translateY(0)'
+              }}>
+                Inicio
+              </span>
+            </>
+          )}
         </NavLink>
         <NavLink 
           to="/app/benefits" 
           className={({isActive})=>`${link} ${isActive?'font-bold':''} transition-all duration-300`}
-          style={({isActive}) => ({
-            color: isActive ? '#667eea' : '#9ca3af',
-            transform: isActive ? 'translateY(-2px)' : 'translateY(0)'
-          })}
         >
-          <div style={{filter: isActive ? 'drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3))' : 'none'}}>
-            {<Gift size={24}/>}
-          </div>
-          Beneficios
+          {({isActive}) => (
+            <>
+              <div style={{
+                color: isActive ? '#667eea' : '#9ca3af',
+                transform: isActive ? 'translateY(-2px)' : 'translateY(0)',
+                filter: isActive ? 'drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3))' : 'none'
+              }}>
+                {<Gift size={24}/>}
+              </div>
+              <span style={{
+                color: isActive ? '#667eea' : '#9ca3af',
+                transform: isActive ? 'translateY(-2px)' : 'translateY(0)'
+              }}>
+                Beneficios
+              </span>
+            </>
+          )}
         </NavLink>
         <NavLink 
           to="/app/scan" 
           className={({isActive})=>`${link} ${isActive?'font-bold':''} transition-all duration-300`}
-          style={({isActive}) => ({
-            color: isActive ? '#667eea' : '#9ca3af',
-            transform: isActive ? 'translateY(-2px)' : 'translateY(0)'
-          })}
         >
-          <div style={{filter: isActive ? 'drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3))' : 'none'}}>
-            {<ScanLine size={24}/>}
-          </div>
-          Escanear
+          {({isActive}) => (
+            <>
+              <div style={{
+                color: isActive ? '#667eea' : '#9ca3af',
+                transform: isActive ? 'translateY(-2px)' : 'translateY(0)',
+                filter: isActive ? 'drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3))' : 'none'
+              }}>
+                {<ScanLine size={24}/>}
+              </div>
+              <span style={{
+                color: isActive ? '#667eea' : '#9ca3af',
+                transform: isActive ? 'translateY(-2px)' : 'translateY(0)'
+              }}>
+                Escanear
+              </span>
+            </>
+          )}
         </NavLink>
         <NavLink 
           to="/app/profile" 
           className={({isActive})=>`${link} ${isActive?'font-bold':''} transition-all duration-300`}
-          style={({isActive}) => ({
-            color: isActive ? '#667eea' : '#9ca3af',
-            transform: isActive ? 'translateY(-2px)' : 'translateY(0)'
-          })}
         >
-          <div style={{filter: isActive ? 'drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3))' : 'none'}}>
-            {<User size={24}/>}
-          </div>
-          Perfil
+          {({isActive}) => (
+            <>
+              <div style={{
+                color: isActive ? '#667eea' : '#9ca3af',
+                transform: isActive ? 'translateY(-2px)' : 'translateY(0)',
+                filter: isActive ? 'drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3))' : 'none'
+              }}>
+                {<User size={24}/>}
+              </div>
+              <span style={{
+                color: isActive ? '#667eea' : '#9ca3af',
+                transform: isActive ? 'translateY(-2px)' : 'translateY(0)'
+              }}>
+                Perfil
+              </span>
+            </>
+          )}
         </NavLink>
       </div>
     </nav>
