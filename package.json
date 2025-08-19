@@ -1,0 +1,19 @@
+{
+  "name": "lokaly",
+  "version": "1.0.0",
+  "description": "CRM de Fidelización para gastronomía",
+  "private": true,
+  "packageManager": "pnpm@10.12.4",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "pnpm --filter lokaly-web dev",
+    "build": "pnpm --filter lokaly-web build",
+    "api:dev": "pnpm --filter lokaly-api dev"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2"
+  }
+}
