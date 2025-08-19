@@ -4,9 +4,9 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primar
 export function Button({ variant='primary', className='', ...props }: Props){
   const base = 'px-4 py-3 rounded-xl text-sm font-semibold disabled:opacity-60 disabled:pointer-events-none';
   const map:any = {
-    primary: 'bg-brand-600 text-white hover:bg-brand-700',
-    secondary: 'bg-white text-ink-600 border hover:bg-muted',
-    ghost: 'text-brand-600 hover:bg-brand-50'
+    primary: 'bg-indigo-600 text-white hover:bg-indigo-700',
+    secondary: 'bg-white text-gray-700 border hover:bg-gray-50',
+    ghost: 'text-indigo-600 hover:bg-indigo-50'
   }
   return <button className={`${base} ${map[variant]} ${className}`} {...props} />
 }

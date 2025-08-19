@@ -4,7 +4,7 @@ import { Home, Gift, ScanLine, User } from 'lucide-react'
 
 export function BottomNav(){
   const link = 'flex flex-col items-center gap-1 text-xs py-1';
-  const active = 'text-brand-600';
+  const active = 'text-indigo-600';
   return (
     <nav className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t safe-bottom">
       <div className="max-w-screen-sm mx-auto grid grid-cols-4 py-2">

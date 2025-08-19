@@ -32,7 +32,7 @@ export default function Index(){
     <AppShell title={local?.nombre || 'Lokaly'}>
       <section className="py-6">
         <Card className="p-5">
-          <div className="text-sm text-ink-500">Bienvenido</div>
+          <div className="text-sm text-gray-500">Bienvenido</div>
           <h1 className="text-2xl font-bold">{local?.nombre ?? 'Local'}</h1>
           <p className="mt-1 text-sm">Registrá tu visita y obtené tu beneficio de bienvenida.</p>
           <Button className="mt-4 w-full" onClick={login}>Ingresar / Registrarme</Button>

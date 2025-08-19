@@ -8,7 +8,7 @@ export default function AppShell({ children, title='Lokaly', points }: Props){
         <div className="max-w-screen-sm mx-auto px-4 h-14 flex items-center justify-between">
           <div className="font-semibold">{title}</div>
           {typeof points === 'number' && (
-            <div className="text-sm bg-brand-50 text-brand-700 px-3 py-1 rounded-full">Puntos: {points}</div>
+            <div className="text-sm bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full">Puntos: {points}</div>
           )}
         </div>
       </header>
