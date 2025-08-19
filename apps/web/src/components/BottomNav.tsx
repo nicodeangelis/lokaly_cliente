@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { Home, Gift, ScanLine, User } from 'lucide-react'
+import { Home, MapPin, ScanLine, User } from 'lucide-react'
 
 export function BottomNav(){
   const link = 'flex flex-col items-center gap-1 text-xs py-1 transition-all duration-200';
