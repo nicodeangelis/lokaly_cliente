@@ -15,7 +15,7 @@ export function BottomNav(){
         boxShadow: '0 -4px 20px -5px rgba(0, 0, 0, 0.1)'
       }}
     >
-      <div className="max-w-screen-sm mx-auto grid grid-cols-4 py-3">
+      <div className="max-w-screen-sm mx-auto grid grid-cols-4 py-4">
         <NavLink 
           to="/app/home" 
           className={({isActive})=>`${link} ${isActive?'font-bold':''} transition-all duration-300`}

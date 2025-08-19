@@ -29,7 +29,7 @@ export default function AppShell({ children, title='Lokaly', points }: Props){
           )}
         </div>
       </header>
-      <main className="max-w-screen-sm mx-auto px-4 pb-24">{children}</main>
+      <main className="max-w-screen-sm mx-auto px-4 pb-32">{children}</main>
     </div>
   )
 }

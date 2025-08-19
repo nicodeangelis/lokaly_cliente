@@ -33,7 +33,7 @@ export default function Dashboard(){
             email: user.email,
             nombre: user.email?.split('@')[0] || 'Usuario',
             apellido: '',
-            sexo: 'otro', // Campo requerido - usar valor válido
+            sexo: 'masculino', // Campo requerido - usar valor válido
             puntos: 0,
             nivel: 'bronce'
           })
@@ -47,7 +47,7 @@ export default function Dashboard(){
             email: user.email,
             nombre: user.email?.split('@')[0] || 'Usuario',
             apellido: '',
-            sexo: 'otro',
+            sexo: 'masculino',
             puntos: 0,
             nivel: 'bronce'
           });
@@ -105,7 +105,8 @@ export default function Dashboard(){
                             background: 'rgba(255,255,255,0.95)',
                             color: '#667eea',
                             boxShadow: '0 8px 25px -5px rgba(255,255,255,0.3)',
-                            backdropFilter: 'blur(10px)'
+                            backdropFilter: 'blur(10px)',
+                            border: 'none'
                           }}
                           onClick={()=>nav('/app/benefits')}
                         >
@@ -144,26 +145,28 @@ export default function Dashboard(){
                           >
                             {me?.puntos ?? 0}
                           </motion.div>
-                          <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-3">
                             <button 
-                              className="px-4 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95 text-sm"
+                              className="w-full px-4 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95 text-sm"
                               style={{
                                 background: 'rgba(255,255,255,0.95)',
                                 color: '#f093fb',
                                 boxShadow: '0 8px 25px -5px rgba(255,255,255,0.3)',
-                                backdropFilter: 'blur(10px)'
+                                backdropFilter: 'blur(10px)',
+                                border: 'none'
                               }}
                               onClick={()=>nav('/app/locales')}
                             >
                               Ver Locales
                             </button>
                             <button 
-                              className="px-4 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95 text-sm"
+                              className="w-full px-4 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95 text-sm"
                               style={{
                                 background: 'rgba(255,255,255,0.95)',
                                 color: '#f093fb',
                                 boxShadow: '0 8px 25px -5px rgba(255,255,255,0.3)',
-                                backdropFilter: 'blur(10px)'
+                                backdropFilter: 'blur(10px)',
+                                border: 'none'
                               }}
                               onClick={()=>nav('/app/scan')}
                             >
