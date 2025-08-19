@@ -32,7 +32,11 @@ export default function Dashboard(){
           initial={{scale:0.95,opacity:0}}
           animate={{scale:1,opacity:1}}
           transition={{delay:0.1,duration:0.3}}
-          className="bg-gradient-to-br from-indigo-500 to-indigo-600 text-white rounded-2xl p-5 shadow-lg"
+          className="text-white rounded-2xl p-5 shadow-lg"
+          style={{
+            background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
+            boxShadow: '0 10px 25px -5px rgba(99, 102, 241, 0.3)'
+          }}
         >
           <div className="text-sm opacity-90">Tu nivel</div>
           <div className="text-2xl font-bold capitalize">{me?.nivel ?? 'bronce'}</div>
@@ -45,7 +49,7 @@ export default function Dashboard(){
             />
           </div>
           <div className="mt-4">
-            <Button variant="secondary" className="bg-white text-indigo-700" onClick={()=>nav('/app/benefits')}>
+            <Button variant="secondary" className="bg-white" style={{color: '#4338ca'}} onClick={()=>nav('/app/benefits')}>
               Ver beneficios
             </Button>
           </div>
