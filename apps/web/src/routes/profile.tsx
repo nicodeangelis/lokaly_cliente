@@ -19,6 +19,7 @@ export default function Profile() {
                     email: user.email,
                     nombre: user.email?.split('@')[0] || 'Usuario',
                     apellido: '',
+                    sexo: 'no_especificado',
                     puntos: 0,
                     nivel: 'bronce'
                   })
