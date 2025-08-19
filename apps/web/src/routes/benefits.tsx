@@ -18,7 +18,7 @@ export default function Benefits() {
                     email: user.email,
                     nombre: user.email?.split('@')[0] || 'Usuario',
                     apellido: '',
-                    sexo: 'no_especificado',
+                    sexo: 'otro',
                     puntos: 0,
                     nivel: 'bronce'
                   })

@@ -34,7 +34,6 @@ export default function Locales() {
       const { data } = await supabase
         .from('locales')
         .select('*')
-        .eq('activo', true)
         .order('nombre')
       
       setLocales(data || [])

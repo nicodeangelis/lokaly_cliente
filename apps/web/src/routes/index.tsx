@@ -44,7 +44,7 @@ export default function Index(){
                     email,
                     nombre: email.split('@')[0],
                     apellido: '',
-                    sexo: 'no_especificado',
+                    sexo: 'otro',
                     puntos: 0,
                     nivel: 'bronce'
                   })
