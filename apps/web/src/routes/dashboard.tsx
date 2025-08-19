@@ -33,7 +33,7 @@ export default function Dashboard(){
             email: user.email,
             nombre: user.email?.split('@')[0] || 'Usuario',
             apellido: '',
-            sexo: 'masculino', // Campo requerido - usar valor válido
+            sexo: 'M', // Campo requerido - usar valor válido
             puntos: 0,
             nivel: 'bronce'
           })
@@ -47,7 +47,7 @@ export default function Dashboard(){
             email: user.email,
             nombre: user.email?.split('@')[0] || 'Usuario',
             apellido: '',
-            sexo: 'masculino',
+            sexo: 'M',
             puntos: 0,
             nivel: 'bronce'
           });
