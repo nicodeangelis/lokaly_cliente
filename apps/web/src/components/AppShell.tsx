@@ -7,23 +7,24 @@ export default function AppShell({ children, title='Lokaly', points }: Props){
       <header 
         className="sticky top-0 z-40 backdrop-blur border-b"
         style={{
-          background: 'rgba(255, 255, 255, 0.8)',
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%)',
           backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(0, 0, 0, 0.1)'
+          borderBottom: '1px solid rgba(255,255,255,0.3)',
+          boxShadow: '0 4px 20px -5px rgba(0, 0, 0, 0.1)'
         }}
       >
-        <div className="max-w-screen-sm mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="font-semibold text-lg">{title}</div>
+        <div className="max-w-screen-sm mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="font-bold text-xl" style={{color: '#667eea'}}>{title}</div>
           {typeof points === 'number' && (
             <div 
-              className="text-sm px-3 py-1 rounded-full font-medium"
+              className="text-sm px-4 py-2 rounded-full font-bold"
               style={{
-                background: 'linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%)',
-                color: '#4338ca',
-                border: '1px solid rgba(99, 102, 241, 0.2)'
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                color: 'white',
+                boxShadow: '0 4px 15px -5px rgba(102, 126, 234, 0.4)'
               }}
             >
-              Puntos: {points}
+              {points} pts
             </div>
           )}
         </div>

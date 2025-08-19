@@ -28,53 +28,99 @@ export default function Dashboard(){
         transition={{duration:.2}}
         className="space-y-4 py-4"
       >
-        <motion.div 
-          initial={{scale:0.95,opacity:0}}
-          animate={{scale:1,opacity:1}}
-          transition={{delay:0.1,duration:0.3}}
-          className="text-white rounded-2xl p-5 shadow-lg"
-          style={{
-            background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
-            boxShadow: '0 10px 25px -5px rgba(99, 102, 241, 0.3)'
-          }}
-        >
+                            <motion.div
+                      initial={{scale:0.95,opacity:0}}
+                      animate={{scale:1,opacity:1}}
+                      transition={{delay:0.1,duration:0.3}}
+                      className="text-white rounded-3xl p-6 relative overflow-hidden"
+                      style={{
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        boxShadow: '0 20px 40px -10px rgba(102, 126, 234, 0.4), 0 10px 20px -5px rgba(0, 0, 0, 0.1)'
+                      }}
+                    >
+                      {/* Beautiful gradient overlay */}
+                      <div 
+                        className="absolute inset-0 opacity-20"
+                        style={{
+                          background: 'radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3) 0%, transparent 50%)'
+                        }}
+                      />
+                      <div className="relative z-10">
           <div className="text-sm opacity-90">Tu nivel</div>
           <div className="text-2xl font-bold capitalize">{me?.nivel ?? 'bronce'}</div>
-          <div className="mt-3 h-2 bg-white/30 rounded-full overflow-hidden">
-            <motion.div 
-              className="h-full bg-white rounded-full"
-              initial={{width:0}}
-              animate={{width: `${Math.min(100, Math.round(((me?.puntos||0)%300)/3))}%`}}
-              transition={{delay:0.3,duration:0.8,ease:"easeOut"}}
-            />
-          </div>
-          <div className="mt-4">
-            <Button variant="secondary" className="bg-white" style={{color: '#4338ca'}} onClick={()=>nav('/app/benefits')}>
-              Ver beneficios
-            </Button>
-          </div>
-        </motion.div>
+                                <div className="mt-4 h-3 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm">
+                        <motion.div
+                          className="h-full rounded-full relative"
+                          initial={{width:0}}
+                          animate={{width: `${Math.min(100, Math.round(((me?.puntos||0)%300)/3))}%`}}
+                          transition={{delay:0.3,duration:0.8,ease:"easeOut"}}
+                          style={{
+                            background: 'linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)',
+                            boxShadow: '0 0 20px rgba(255,255,255,0.5)'
+                          }}
+                        />
+                      </div>
+                      <div className="mt-6">
+                        <button 
+                          className="px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
+                          style={{
+                            background: 'rgba(255,255,255,0.95)',
+                            color: '#667eea',
+                            boxShadow: '0 8px 25px -5px rgba(255,255,255,0.3)',
+                            backdropFilter: 'blur(10px)'
+                          }}
+                          onClick={()=>nav('/app/benefits')}
+                        >
+                          Ver beneficios
+                        </button>
+                      </div>
+                      </div>
+                    </motion.div>
 
-        <motion.div
-          initial={{scale:0.95,opacity:0}}
-          animate={{scale:1,opacity:1}}
-          transition={{delay:0.2,duration:0.3}}
-        >
-          <Card className="p-4">
-            <div className="text-sm text-gray-500">Puntos</div>
-            <motion.div 
-              className="text-3xl font-bold"
-              initial={{scale:0.8}}
-              animate={{scale:1}}
-              transition={{delay:0.4,duration:0.3}}
-            >
-              {me?.puntos ?? 0}
-            </motion.div>
-            <Button className="mt-3 w-full" onClick={()=>nav('/app/scan')}>
-              Escanear QR
-            </Button>
-          </Card>
-        </motion.div>
+                            <motion.div
+                      initial={{scale:0.95,opacity:0}}
+                      animate={{scale:1,opacity:1}}
+                      transition={{delay:0.2,duration:0.3}}
+                    >
+                      <div 
+                        className="p-6 rounded-3xl relative overflow-hidden"
+                        style={{
+                          background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                          boxShadow: '0 20px 40px -10px rgba(240, 147, 251, 0.4), 0 10px 20px -5px rgba(0, 0, 0, 0.1)'
+                        }}
+                      >
+                        {/* Beautiful gradient overlay */}
+                        <div 
+                          className="absolute inset-0 opacity-20"
+                          style={{
+                            background: 'radial-gradient(circle at 70% 80%, rgba(255,255,255,0.3) 0%, transparent 50%)'
+                          }}
+                        />
+                        <div className="relative z-10 text-white">
+                          <div className="text-sm opacity-90 mb-2">Puntos</div>
+                          <motion.div
+                            className="text-4xl font-bold mb-4"
+                            initial={{scale:0.8}}
+                            animate={{scale:1}}
+                            transition={{delay:0.4,duration:0.3}}
+                          >
+                            {me?.puntos ?? 0}
+                          </motion.div>
+                          <button 
+                            className="w-full px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
+                            style={{
+                              background: 'rgba(255,255,255,0.95)',
+                              color: '#f093fb',
+                              boxShadow: '0 8px 25px -5px rgba(255,255,255,0.3)',
+                              backdropFilter: 'blur(10px)'
+                            }}
+                            onClick={()=>nav('/app/scan')}
+                          >
+                            Escanear QR
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
       </motion.section>
       <BottomNav/>
     </AppShell>
