@@ -12,6 +12,7 @@ export default function Locales() {
   const [filteredLocales, setFilteredLocales] = useState<any[]>([])
   const [selectedBarrio, setSelectedBarrio] = useState<string>('todos')
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     // Obtener ubicación del usuario
@@ -29,15 +30,66 @@ export default function Locales() {
       )
     }
 
-    // Cargar locales
+    // Cargar locales con datos de ejemplo si no hay en DB
     const loadLocales = async () => {
-      const { data } = await supabase
-        .from('locales')
-        .select('*')
-        .order('nombre')
-      
-      setLocales(data || [])
-      setFilteredLocales(data || [])
+      try {
+        const { data, error } = await supabase
+          .from('locales')
+          .select('*')
+          .order('nombre')
+        
+        if (error) {
+          console.log('Error loading locales:', error)
+          // Usar datos de ejemplo si no hay tabla o está vacía
+          const exampleLocales = [
+            {
+              id: 1,
+              nombre: 'Café Centro',
+              direccion: 'Florida 555, CABA',
+              barrio: 'Centro',
+              slug: 'cafe-centro',
+              rating: 4.5,
+              distancia: 0.8
+            },
+            {
+              id: 2,
+              nombre: 'Café Norte',
+              direccion: 'Cabildo 3200, CABA',
+              barrio: 'Belgrano',
+              slug: 'cafe-norte',
+              rating: 4.2,
+              distancia: 2.1
+            },
+            {
+              id: 3,
+              nombre: 'Café Palermo',
+              direccion: 'Armenia 1234, CABA',
+              barrio: 'Palermo',
+              slug: 'cafe-palermo',
+              rating: 4.7,
+              distancia: 1.5
+            },
+            {
+              id: 4,
+              nombre: 'Café San Telmo',
+              direccion: 'Defensa 800, CABA',
+              barrio: 'San Telmo',
+              slug: 'cafe-san-telmo',
+              rating: 4.3,
+              distancia: 3.2
+            }
+          ]
+          setLocales(exampleLocales)
+          setFilteredLocales(exampleLocales)
+        } else {
+          setLocales(data || [])
+          setFilteredLocales(data || [])
+        }
+      } catch (error) {
+        console.log('Error:', error)
+      } finally {
+        setLoading(false)
+      }
     }
 
     loadLocales()
@@ -93,68 +145,143 @@ export default function Locales() {
           animate={{scale:1,opacity:1}}
           transition={{delay:0.2,duration:0.3}}
         >
-          <Card className="p-4">
-            <div className="text-center mb-4">
-              <MapPin size={24} className="mx-auto text-brand-600 mb-2" />
-              <h3 className="font-semibold">Mapa de Locales</h3>
-              <p className="text-sm text-ink-500">
-                {userLocation ? 'Ubicación detectada' : 'Activa ubicación para ver distancias'}
-              </p>
-            </div>
-            
-            {/* Mapa placeholder */}
-            <div 
-              className="w-full h-48 rounded-xl bg-gradient-to-br from-brand-50 to-brand-100 border-2 border-dashed border-brand-200 flex items-center justify-center"
-            >
-              <div className="text-center">
-                <MapPin size={32} className="mx-auto text-brand-600 mb-2" />
-                <p className="text-sm text-ink-500">Mapa interactivo</p>
-                <p className="text-xs text-ink-400">(Integrar con Google Maps)</p>
+          <div 
+            className="relative rounded-3xl overflow-hidden"
+            style={{
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              boxShadow: '0 20px 40px -10px rgba(102, 126, 234, 0.4)'
+            }}
+          >
+            <div className="p-6 text-white">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 bg-white/20 rounded-full">
+                  <MapPin size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg">Mapa de Locales</h3>
+                  <p className="text-sm opacity-90">
+                    {userLocation ? 'Ubicación detectada' : 'Activa ubicación para ver distancias'}
+                  </p>
+                </div>
+              </div>
+              
+              {/* Mapa placeholder mejorado */}
+              <div 
+                className="w-full h-48 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center relative overflow-hidden"
+              >
+                {/* Puntos del mapa simulados */}
+                <div className="absolute inset-0">
+                  <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></div>
+                  <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-yellow-400 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                  <div className="absolute bottom-1/3 left-1/2 w-3 h-3 bg-yellow-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+                  <div className="absolute bottom-1/4 right-1/4 w-3 h-3 bg-yellow-400 rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
+                </div>
+                
+                <div className="text-center relative z-10">
+                  <MapPin size={40} className="mx-auto mb-3 opacity-80" />
+                  <p className="text-sm font-medium">Mapa interactivo</p>
+                  <p className="text-xs opacity-70">Próximamente con Google Maps</p>
+                </div>
               </div>
             </div>
-          </Card>
+          </div>
         </motion.div>
 
         {/* Lista de locales */}
-        <div className="space-y-3">
-          {filteredLocales.map((local, index) => (
-            <motion.div
-              key={local.id}
-              initial={{scale:0.95,opacity:0,y:20}}
-              animate={{scale:1,opacity:1,y:0}}
-              transition={{delay:0.3 + index * 0.1,duration:0.3}}
-            >
-              <Card className="p-4">
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg">{local.nombre}</h3>
-                    <p className="text-sm text-ink-500 mb-2">{local.direccion}</p>
-                    {local.barrio && (
-                      <span className="inline-block bg-brand-50 text-brand-700 px-2 py-1 rounded-full text-xs mb-3">
-                        {local.barrio}
-                      </span>
-                    )}
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-1">
-                        <Star size={16} className="text-yellow-500 fill-current" />
-                        <span className="text-sm">{local.rating || '4.5'}</span>
+        <div className="space-y-4">
+          <h3 className="font-bold text-xl text-ink-700">Locales Cercanos</h3>
+          
+          {loading ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map((i) => (
+                <motion.div
+                  key={i}
+                  initial={{opacity:0}}
+                  animate={{opacity:1}}
+                  transition={{delay: i * 0.1}}
+                >
+                  <div className="p-4 rounded-3xl bg-white/50 backdrop-blur-sm border border-white/20 animate-pulse">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                        <div className="h-3 bg-gray-200 rounded w-2/3"></div>
                       </div>
-                      <span className="text-sm text-ink-500">
-                        {local.distancia ? `${local.distancia}km` : 'Distancia N/A'}
-                      </span>
                     </div>
                   </div>
-                  <Button 
-                    variant="secondary" 
-                    className="ml-4"
-                    onClick={() => window.location.href = `/l/${local.slug}`}
-                  >
-                    Visitar
-                  </Button>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            filteredLocales.map((local, index) => (
+              <motion.div
+                key={local.id}
+                initial={{scale:0.95,opacity:0,y:20}}
+                animate={{scale:1,opacity:1,y:0}}
+                transition={{delay:0.3 + index * 0.1,duration:0.3}}
+                className="group cursor-pointer"
+                onClick={() => window.location.href = `/l/${local.slug}`}
+              >
+                <div 
+                  className="p-5 rounded-3xl relative overflow-hidden transition-all duration-300 group-hover:scale-105"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%)',
+                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                    border: '1px solid rgba(255, 255, 255, 0.8)'
+                  }}
+                >
+                  {/* Gradient overlay on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-brand-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  <div className="relative z-10">
+                    <div className="flex justify-between items-start mb-3">
+                      <div className="flex-1">
+                        <h3 className="font-bold text-xl text-ink-800 mb-1">{local.nombre}</h3>
+                        <p className="text-sm text-ink-600 mb-2">{local.direccion}</p>
+                        {local.barrio && (
+                          <span 
+                            className="inline-block px-3 py-1 rounded-full text-xs font-medium"
+                            style={{
+                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                              color: 'white'
+                            }}
+                          >
+                            {local.barrio}
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-right">
+                        <div className="flex items-center gap-1 mb-1">
+                          <Star size={16} className="text-yellow-500 fill-current" />
+                          <span className="font-semibold text-ink-800">{local.rating || '4.5'}</span>
+                        </div>
+                        <span className="text-sm text-ink-600 font-medium">
+                          {local.distancia ? `${local.distancia}km` : 'Distancia N/A'}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <MapPin size={16} className="text-brand-600" />
+                        <span className="text-sm text-ink-600">Disponible</span>
+                      </div>
+                      <div 
+                        className="px-4 py-2 rounded-full font-semibold text-sm transition-all duration-300"
+                        style={{
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          color: 'white',
+                          boxShadow: '0 4px 15px -5px rgba(102, 126, 234, 0.4)'
+                        }}
+                      >
+                        Visitar
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </Card>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))
+          )}
         </div>
 
         {filteredLocales.length === 0 && (
