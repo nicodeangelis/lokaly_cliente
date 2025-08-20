@@ -67,7 +67,7 @@ const getLevelInfo = (nivel: string) => {
   }
 };
 
-export default function Dashboard() {
+function Dashboard() {
   const [user, setUser] = useState<any>(null);
   const [visitas, setVisitas] = useState<any[]>([]);
   const navigate = useNavigate();
@@ -290,3 +290,5 @@ export default function Dashboard() {
     </>
   );
 }
+
+export default Dashboard;
