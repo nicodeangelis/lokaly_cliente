@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { QrCode, Star, Gift, Users } from 'lucide-react';
+import { AnimatedBackground } from '@/components/AnimatedBackground';
 
 // Mock data for demonstration
 const mockLocales = {
@@ -103,7 +104,8 @@ export default function Landing() {
         <meta property="og:image" content={local.imagen} />
       </Helmet>
 
-      <div className="min-h-screen gradient-subtle">
+      <div className="min-h-screen gradient-subtle relative">
+        <AnimatedBackground variant="restaurant" />
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
           <img 
@@ -113,21 +115,29 @@ export default function Landing() {
           />
           <div className="absolute inset-0 bg-black/40" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center text-white"
-            >
-              <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center text-white"
+        >
+              <motion.div 
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                whileHover={{ scale: 1.1, rotate: [0, -10, 10, 0] }}
+                transition={{ type: "spring", bounce: 0.5, delay: 0.2 }}
+                className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 animate-float"
+              >
                 <QrCode className="w-10 h-10" />
-              </div>
+              </motion.div>
               <h1 className="text-4xl font-bold mb-2">{local.nombre}</h1>
               <p className="text-xl opacity-90">{local.direccion}</p>
             </motion.div>
           </div>
         </div>
 
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 relative z-10">
           <div className="max-w-2xl mx-auto space-y-6">
             
             {/* Welcome Benefit */}
@@ -138,9 +148,15 @@ export default function Landing() {
             >
               <Card className="shadow-medium border-primary/20">
                 <CardHeader className="text-center">
-                  <div className="w-16 h-16 gradient-brand rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Gift className="w-8 h-8 text-primary-foreground" />
-                  </div>
+                  <motion.div 
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    whileHover={{ scale: 1.1, boxShadow: "0 0 30px hsl(var(--primary) / 0.5)" }}
+                    transition={{ type: "spring", bounce: 0.5 }}
+                    className="w-16 h-16 gradient-brand rounded-full flex items-center justify-center mx-auto mb-4 animate-glow"
+                  >
+                    <Gift className="w-8 h-8 text-primary-foreground animate-bounce-gentle" />
+                  </motion.div>
                   <CardTitle className="text-2xl text-primary">¡Bienvenida especial!</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">

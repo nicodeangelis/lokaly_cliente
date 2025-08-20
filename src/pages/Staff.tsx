@@ -202,14 +202,20 @@ export default function Staff() {
                   <CardContent className="text-center space-y-6">
                     
                     {/* QR Code */}
-                    <div className="bg-white p-6 rounded-lg border inline-block">
+                    <motion.div 
+                      initial={{ scale: 0, rotate: 45 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", bounce: 0.4 }}
+                      className="bg-white p-6 rounded-lg border inline-block shadow-elegant animate-glow"
+                    >
                       <QRCodeSVG 
                         value={qrToken}
                         size={200}
                         level="M"
                         includeMargin={true}
                       />
-                    </div>
+                    </motion.div>
 
                     {/* QR Info */}
                     <div className="space-y-3">

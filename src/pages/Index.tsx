@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Store, QrCode, Trophy, Users, ArrowRight } from 'lucide-react';
+import { AnimatedBackground } from '@/components/AnimatedBackground';
+import { FloatingParticles } from '@/components/FloatingParticles';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -15,17 +17,25 @@ const Index = () => {
         <meta name="description" content="Descubre Lokaly, el programa de fidelización que conecta restaurantes con sus clientes favoritos" />
       </Helmet>
 
-      <div className="min-h-screen gradient-subtle">
+      <div className="min-h-screen gradient-subtle relative">
+        <AnimatedBackground />
+        <FloatingParticles count={8} />
         {/* Hero Section */}
-        <div className="container mx-auto px-4 py-16">
+        <div className="container mx-auto px-4 py-16 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <div className="w-20 h-20 gradient-brand rounded-full flex items-center justify-center mx-auto mb-8">
+            <motion.div 
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              whileHover={{ scale: 1.1, rotate: [0, -15, 15, 0] }}
+              transition={{ type: "spring", bounce: 0.5 }}
+              className="w-20 h-20 gradient-brand rounded-full flex items-center justify-center mx-auto mb-8 animate-float hover-glow"
+            >
               <Store className="w-10 h-10 text-primary-foreground" />
-            </div>
+            </motion.div>
             
             <h1 className="text-5xl font-bold mb-6 gradient-brand bg-clip-text text-transparent">
               Lokaly
@@ -41,7 +51,7 @@ const Index = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <Card className="shadow-medium hover:shadow-strong transition-all duration-300">
+                <Card className="shadow-medium hover:shadow-strong transition-all duration-300 hover-lift hover-shimmer">
                   <CardHeader className="text-center">
                     <QrCode className="w-12 h-12 text-primary mx-auto mb-4" />
                     <CardTitle>Escanea & Acumula</CardTitle>
@@ -59,7 +69,7 @@ const Index = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <Card className="shadow-medium hover:shadow-strong transition-all duration-300">
+                <Card className="shadow-medium hover:shadow-strong transition-all duration-300 hover-lift hover-shimmer">
                   <CardHeader className="text-center">
                     <Trophy className="w-12 h-12 text-success mx-auto mb-4" />
                     <CardTitle>Sube de Nivel</CardTitle>
@@ -77,7 +87,7 @@ const Index = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <Card className="shadow-medium hover:shadow-strong transition-all duration-300">
+                <Card className="shadow-medium hover:shadow-strong transition-all duration-300 hover-lift hover-shimmer">
                   <CardHeader className="text-center">
                     <Users className="w-12 h-12 text-secondary mx-auto mb-4" />
                     <CardTitle>Beneficios Exclusivos</CardTitle>
@@ -99,7 +109,7 @@ const Index = () => {
             >
               <Button 
                 onClick={() => navigate('/l/cafe-centro')}
-                className="gradient-brand text-primary-foreground h-12 px-8 text-lg"
+                className="gradient-brand text-primary-foreground h-12 px-8 text-lg hover-lift hover-glow animate-pulse-subtle"
               >
                 Ver Demo - Café del Centro
                 <ArrowRight className="ml-2 w-5 h-5" />

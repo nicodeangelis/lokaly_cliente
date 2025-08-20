@@ -146,9 +146,19 @@ export default function Scan() {
               >
                 <Card className="shadow-medium">
                   <CardHeader className="text-center">
-                    <div className="w-16 h-16 gradient-brand rounded-full flex items-center justify-center mx-auto mb-4">
-                      <QrCode className="w-8 h-8 text-primary-foreground" />
-                    </div>
+                          <motion.div 
+                            initial={{ scale: 0, rotate: -180 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            whileHover={{ 
+                              scale: 1.1, 
+                              rotate: [0, -10, 10, 0],
+                              boxShadow: "0 0 30px hsl(var(--primary) / 0.5)"
+                            }}
+                            transition={{ type: "spring", bounce: 0.5, delay: 0.2 }}
+                            className="w-16 h-16 gradient-brand rounded-full flex items-center justify-center mx-auto mb-4 animate-glow"
+                          >
+                            <QrCode className="w-8 h-8 text-primary-foreground" />
+                          </motion.div>
                     <CardTitle>Escanear QR de Compra</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center space-y-4">

@@ -64,10 +64,13 @@ export default function Auth() {
         <div className="w-full max-w-md">
 
           {step === 'form' ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ type: "spring", bounce: 0.3 }}
+              >
               <Card className="shadow-strong">
                 <CardHeader className="text-center">
                   <Button 
@@ -78,13 +81,23 @@ export default function Auth() {
                     <ArrowLeft className="w-4 h-4" />
                   </Button>
                   
-                  <div className="w-16 h-16 gradient-brand rounded-full flex items-center justify-center mx-auto mb-4">
+                  <motion.div 
+                    initial={{ scale: 0, rotate: -180, opacity: 0 }}
+                    animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                    whileHover={{ 
+                      scale: 1.1, 
+                      rotate: [0, -10, 10, 0],
+                      boxShadow: "0 0 40px hsl(var(--primary) / 0.6)"
+                    }}
+                    transition={{ type: "spring", bounce: 0.5, delay: 0.2 }}
+                    className="w-16 h-16 gradient-brand rounded-full flex items-center justify-center mx-auto mb-4 animate-glow"
+                  >
                     {mode === 'login' ? (
                       <Mail className="w-8 h-8 text-primary-foreground" />
                     ) : (
                       <User className="w-8 h-8 text-primary-foreground" />
                     )}
-                  </div>
+                  </motion.div>
                   <CardTitle className="text-2xl">
                     {mode === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta'}
                   </CardTitle>
