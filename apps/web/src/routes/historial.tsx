@@ -72,7 +72,7 @@ export default function Historial() {
         initial={{opacity:0,y:8}}
         animate={{opacity:1,y:0}}
         transition={{duration:.2}}
-        className="space-y-4 py-4"
+        className="space-y-4"
       >
         {/* Resumen */}
         <motion.div
@@ -82,17 +82,17 @@ export default function Historial() {
         >
           <Card className="p-6">
             <div className="flex items-center gap-3 mb-4">
-              <CreditCard size={24} className="text-brand-600" />
-              <h2 className="text-xl font-bold">Resumen de Créditos</h2>
+              <CreditCard size={24} className="text-blue-600" />
+              <h2 className="text-xl font-bold text-gray-800">Resumen de Créditos</h2>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600">{me?.puntos || 0}</div>
-                <div className="text-sm text-ink-500">Puntos actuales</div>
+                <div className="text-sm text-gray-600">Puntos actuales</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-brand-600">{transacciones.length}</div>
-                <div className="text-sm text-ink-500">Transacciones</div>
+                <div className="text-2xl font-bold text-blue-600">{transacciones.length}</div>
+                <div className="text-sm text-gray-600">Transacciones</div>
               </div>
             </div>
           </Card>
@@ -100,7 +100,7 @@ export default function Historial() {
 
         {/* Lista de transacciones */}
         <div className="space-y-3">
-          <h3 className="font-semibold text-lg">Historial de Transacciones</h3>
+          <h3 className="font-semibold text-lg text-gray-800">Historial de Transacciones</h3>
           
           {transacciones.map((transaccion, index) => (
             <motion.div
@@ -120,12 +120,12 @@ export default function Historial() {
                       {transaccion.tipo === 'suma' ? <Plus size={16} /> : <Minus size={16} />}
                     </div>
                     <div>
-                      <div className="font-semibold">{transaccion.descripcion}</div>
-                      <div className="text-sm text-ink-500 flex items-center gap-2">
+                      <div className="font-semibold text-gray-800">{transaccion.descripcion}</div>
+                      <div className="text-sm text-gray-600 flex items-center gap-2">
                         <MapPin size={14} />
                         {transaccion.local}
                       </div>
-                      <div className="text-xs text-ink-400 flex items-center gap-1">
+                      <div className="text-xs text-gray-500 flex items-center gap-1">
                         <Calendar size={12} />
                         {formatDate(transaccion.fecha)}
                       </div>
@@ -137,7 +137,7 @@ export default function Historial() {
                     }`}>
                       {transaccion.tipo === 'suma' ? '+' : '-'}{transaccion.puntos} pts
                     </div>
-                    <div className="text-xs text-ink-400 capitalize">
+                    <div className="text-xs text-gray-500 capitalize">
                       {transaccion.origen}
                     </div>
                   </div>
@@ -153,9 +153,9 @@ export default function Historial() {
               transition={{delay:0.5}}
               className="text-center py-8"
             >
-              <CreditCard size={48} className="mx-auto text-ink-300 mb-4" />
-              <p className="text-ink-500">No hay transacciones aún</p>
-              <p className="text-sm text-ink-400">Visita un local para empezar a acumular puntos</p>
+              <CreditCard size={48} className="mx-auto text-gray-300 mb-4" />
+              <p className="text-gray-600">No hay transacciones aún</p>
+              <p className="text-sm text-gray-500">Visita un local para empezar a acumular puntos</p>
             </motion.div>
           )}
         </div>

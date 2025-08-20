@@ -4,6 +4,7 @@ import AppShell from '../components/AppShell'
 import { BottomNav } from '../components/BottomNav'
 import { Card } from '../components/Card'
 import { Button } from '../components/Button'
+import { motion } from 'framer-motion'
 
 export default function Profile() {
   const [me, setMe] = useState<any>(null)
@@ -14,34 +15,34 @@ export default function Profile() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
       
-                        const { data: cliente } = await supabase.from('clientes').select('*').eq('email', user.email).maybeSingle()
-                  setMe(cliente || {
-                    email: user.email,
-                    nombre: user.email?.split('@')[0] || 'Usuario',
-                    apellido: '',
-                    sexo: 'M',
-                    puntos: 0,
-                    nivel: 'bronce'
-                  })
+      const { data: cliente } = await supabase.from('clientes').select('*').eq('email', user.email).maybeSingle()
+      setMe(cliente || {
+        email: user.email,
+        nombre: user.email?.split('@')[0] || 'Usuario',
+        apellido: '',
+        sexo: 'M',
+        puntos: 0,
+        nivel: 'bronce'
+      })
       
-                        if (cliente?.id) {
-                    const { data: visitasData } = await supabase
-                      .from('visitas')
-                      .select(`
-                        *,
-                        locales (
-                          nombre,
-                          slug
-                        )
-                      `)
-                      .eq('cliente_id', cliente.id)
-                      .order('creado_en', { ascending: false })
-                      .limit(5)
+      if (cliente?.id) {
+        const { data: visitasData } = await supabase
+          .from('visitas')
+          .select(`
+            *,
+            locales (
+              nombre,
+              slug
+            )
+          `)
+          .eq('cliente_id', cliente.id)
+          .order('creado_en', { ascending: false })
+          .limit(5)
 
-                    setVisitas(visitasData || [])
-                  } else {
-                    setVisitas([])
-                  }
+        setVisitas(visitasData || [])
+      } else {
+        setVisitas([])
+      }
     })()
   }, [])
 
@@ -52,43 +53,67 @@ export default function Profile() {
 
   return (
     <AppShell title="Perfil" points={me?.puntos}>
-      <section className="py-4 space-y-4">
-        <Card className="p-4">
-          <div className="text-sm text-ink-500">Tu información</div>
-          <div className="font-semibold text-lg mt-1">{me?.nombre} {me?.apellido}</div>
-          <div className="text-sm text-ink-500">{me?.email}</div>
-          <div className="mt-3 flex gap-2">
-            <div className="text-sm bg-brand-50 text-brand-700 px-3 py-1 rounded-full">
-              Nivel {me?.nivel}
-            </div>
-            <div className="text-sm bg-green-50 text-green-700 px-3 py-1 rounded-full">
-              {me?.puntos} puntos
-            </div>
-          </div>
-        </Card>
-
-        <div className="text-lg font-semibold">Últimas visitas</div>
-        
-        {visitas.map((visita) => (
-          <Card key={visita.id} className="p-4">
-            <div className="flex justify-between items-center">
-              <div>
-                <div className="font-semibold">{visita.locales?.nombre}</div>
-                <div className="text-sm text-ink-500">
-                  {new Date(visita.creado_en).toLocaleDateString('es-AR')}
-                </div>
+      <motion.section 
+        className="py-4 space-y-4"
+        initial={{opacity:0,y:8}}
+        animate={{opacity:1,y:0}}
+        transition={{duration:.2}}
+      >
+        <motion.div
+          initial={{scale:0.95,opacity:0}}
+          animate={{scale:1,opacity:1}}
+          transition={{delay:0.1,duration:0.3}}
+        >
+          <Card className="p-4">
+            <div className="text-sm text-gray-600">Tu información</div>
+            <div className="font-semibold text-lg mt-1 text-gray-800">{me?.nombre} {me?.apellido}</div>
+            <div className="text-sm text-gray-600">{me?.email}</div>
+            <div className="mt-3 flex gap-2">
+              <div className="text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full">
+                Nivel {me?.nivel}
               </div>
-              <div className="text-xs bg-brand-50 text-brand-700 px-2 py-1 rounded-full">
-                {visita.origen}
+              <div className="text-sm bg-green-50 text-green-700 px-3 py-1 rounded-full">
+                {me?.puntos} puntos
               </div>
             </div>
           </Card>
+        </motion.div>
+
+        <div className="text-lg font-semibold text-gray-800">Últimas visitas</div>
+        
+        {visitas.map((visita, index) => (
+          <motion.div
+            key={visita.id}
+            initial={{scale:0.95,opacity:0,y:20}}
+            animate={{scale:1,opacity:1,y:0}}
+            transition={{delay:0.2 + index * 0.1,duration:0.3}}
+          >
+            <Card className="p-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <div className="font-semibold text-gray-800">{visita.locales?.nombre}</div>
+                  <div className="text-sm text-gray-600">
+                    {new Date(visita.creado_en).toLocaleDateString('es-AR')}
+                  </div>
+                </div>
+                <div className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full">
+                  {visita.origen}
+                </div>
+              </div>
+            </Card>
+          </motion.div>
         ))}
 
-        <Button variant="ghost" onClick={logout} className="w-full">
-          Cerrar sesión
-        </Button>
-      </section>
+        <motion.div
+          initial={{scale:0.95,opacity:0}}
+          animate={{scale:1,opacity:1}}
+          transition={{delay:0.3,duration:0.3}}
+        >
+          <Button variant="ghost" onClick={logout} className="w-full">
+            Cerrar sesión
+          </Button>
+        </motion.div>
+      </motion.section>
       <BottomNav />
     </AppShell>
   )

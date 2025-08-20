@@ -116,7 +116,7 @@ export default function Scan(){
             <Card className="p-6 text-center">
               <div className="mb-4">
                 <div className="text-2xl font-bold text-green-600 mb-2">¡Puntos sumados! 🎉</div>
-                <div className="text-sm text-ink-500">¿Cómo te atendieron en {localName}?</div>
+                <div className="text-sm text-gray-600">¿Cómo te atendieron en {localName}?</div>
               </div>
               
               <div className="flex justify-center gap-2 mb-6">
@@ -124,7 +124,7 @@ export default function Scan(){
                   <button
                     key={star}
                     onClick={() => setRating(star)}
-                    className={`p-2 rounded-full transition-all duration-200 ${
+                    className={`p-2 rounded-full transition-all duration-200 touch-target ${
                       rating >= star 
                         ? 'text-yellow-500 scale-110' 
                         : 'text-gray-300 hover:text-yellow-400'
@@ -135,7 +135,7 @@ export default function Scan(){
                 ))}
               </div>
               
-              <div className="text-sm text-ink-500 mb-4">
+              <div className="text-sm text-gray-600 mb-4">
                 {rating === 0 && 'Selecciona una calificación'}
                 {rating === 1 && 'Muy malo'}
                 {rating === 2 && 'Malo'}

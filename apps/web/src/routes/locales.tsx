@@ -112,7 +112,7 @@ export default function Locales() {
         initial={{opacity:0,y:8}}
         animate={{opacity:1,y:0}}
         transition={{duration:.2}}
-        className="space-y-4 py-4"
+        className="space-y-4"
       >
         {/* Filtros */}
         <motion.div
@@ -122,13 +122,13 @@ export default function Locales() {
         >
           <Card className="p-4">
             <div className="flex items-center gap-2 mb-3">
-              <Filter size={20} className="text-ink-500" />
-              <span className="font-semibold">Filtrar por barrio</span>
+              <Filter size={20} className="text-gray-500" />
+              <span className="font-semibold text-gray-700">Filtrar por barrio</span>
             </div>
             <select 
               value={selectedBarrio}
               onChange={(e) => setSelectedBarrio(e.target.value)}
-              className="w-full p-3 border rounded-xl bg-white"
+              className="w-full p-3 border border-gray-200 rounded-xl bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               {barrios.map(barrio => (
                 <option key={barrio} value={barrio}>
@@ -145,13 +145,7 @@ export default function Locales() {
           animate={{scale:1,opacity:1}}
           transition={{delay:0.2,duration:0.3}}
         >
-          <div 
-            className="relative rounded-3xl overflow-hidden"
-            style={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              boxShadow: '0 20px 40px -10px rgba(102, 126, 234, 0.4)'
-            }}
-          >
+          <div className="relative rounded-3xl overflow-hidden gradient-primary shadow-lg">
             <div className="p-6 text-white">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-white/20 rounded-full">
@@ -166,9 +160,7 @@ export default function Locales() {
               </div>
               
               {/* Mapa placeholder mejorado */}
-              <div 
-                className="w-full h-48 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center relative overflow-hidden"
-              >
+              <div className="w-full h-48 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center relative overflow-hidden">
                 {/* Puntos del mapa simulados */}
                 <div className="absolute inset-0">
                   <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></div>
@@ -189,7 +181,7 @@ export default function Locales() {
 
         {/* Lista de locales */}
         <div className="space-y-4">
-          <h3 className="font-bold text-xl text-ink-700">Locales Cercanos</h3>
+          <h3 className="font-bold text-xl text-gray-800">Locales Cercanos</h3>
           
           {loading ? (
             <div className="space-y-3">
@@ -222,30 +214,17 @@ export default function Locales() {
                 className="group cursor-pointer"
                 onClick={() => window.location.href = `/l/${local.slug}`}
               >
-                <div 
-                  className="p-5 rounded-3xl relative overflow-hidden transition-all duration-300 group-hover:scale-105"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%)',
-                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-                    border: '1px solid rgba(255, 255, 255, 0.8)'
-                  }}
-                >
+                <div className="p-5 rounded-3xl relative overflow-hidden transition-all duration-300 group-hover:scale-105 bg-white shadow-sm border border-gray-100">
                   {/* Gradient overlay on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-brand-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   
                   <div className="relative z-10">
                     <div className="flex justify-between items-start mb-3">
                       <div className="flex-1">
-                        <h3 className="font-bold text-xl text-ink-800 mb-1">{local.nombre}</h3>
-                        <p className="text-sm text-ink-600 mb-2">{local.direccion}</p>
+                        <h3 className="font-bold text-xl text-gray-800 mb-1">{local.nombre}</h3>
+                        <p className="text-sm text-gray-600 mb-2">{local.direccion}</p>
                         {local.barrio && (
-                          <span 
-                            className="inline-block px-3 py-1 rounded-full text-xs font-medium"
-                            style={{
-                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                              color: 'white'
-                            }}
-                          >
+                          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium gradient-primary text-white">
                             {local.barrio}
                           </span>
                         )}
@@ -253,9 +232,9 @@ export default function Locales() {
                       <div className="text-right">
                         <div className="flex items-center gap-1 mb-1">
                           <Star size={16} className="text-yellow-500 fill-current" />
-                          <span className="font-semibold text-ink-800">{local.rating || '4.5'}</span>
+                          <span className="font-semibold text-gray-800">{local.rating || '4.5'}</span>
                         </div>
-                        <span className="text-sm text-ink-600 font-medium">
+                        <span className="text-sm text-gray-600 font-medium">
                           {local.distancia ? `${local.distancia}km` : 'Distancia N/A'}
                         </span>
                       </div>
@@ -263,17 +242,10 @@ export default function Locales() {
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <MapPin size={16} className="text-brand-600" />
-                        <span className="text-sm text-ink-600">Disponible</span>
+                        <MapPin size={16} className="text-blue-600" />
+                        <span className="text-sm text-gray-600">Disponible</span>
                       </div>
-                      <div 
-                        className="px-4 py-2 rounded-full font-semibold text-sm transition-all duration-300"
-                        style={{
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          color: 'white',
-                          boxShadow: '0 4px 15px -5px rgba(102, 126, 234, 0.4)'
-                        }}
-                      >
+                      <div className="px-4 py-2 rounded-full font-semibold text-sm gradient-primary text-white shadow-md">
                         Visitar
                       </div>
                     </div>
@@ -284,14 +256,14 @@ export default function Locales() {
           )}
         </div>
 
-        {filteredLocales.length === 0 && (
+        {filteredLocales.length === 0 && !loading && (
           <motion.div
             initial={{opacity:0}}
             animate={{opacity:1}}
             transition={{delay:0.5}}
             className="text-center py-8"
           >
-            <p className="text-ink-500">No se encontraron locales en este barrio</p>
+            <p className="text-gray-500">No se encontraron locales en este barrio</p>
           </motion.div>
         )}
       </motion.section>

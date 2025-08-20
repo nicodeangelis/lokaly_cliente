@@ -36,7 +36,7 @@ export default function Staff(){
         initial={{opacity:0,y:8}} 
         animate={{opacity:1,y:0}} 
         transition={{duration:.2}}
-        className="py-4 space-y-3"
+        className="space-y-4"
       >
         <motion.div
           initial={{scale:0.95,opacity:0}}
@@ -44,10 +44,15 @@ export default function Staff(){
           transition={{delay:0.1,duration:0.3}}
         >
           <Card className="p-4 space-y-3">
-            <div className="text-sm text-gray-500">Local</div>
-            <div className="font-semibold">{local?.nombre ?? '—'}</div>
-            <input className="border rounded-xl p-3 w-full" placeholder="Nro POS" value={nro} onChange={e=>setNro(e.target.value)} />
-            <Button onClick={generar} disabled={!nro}>Generar QR</Button>
+            <div className="text-sm text-gray-600">Local</div>
+            <div className="font-semibold text-gray-800">{local?.nombre ?? '—'}</div>
+            <input 
+              className="border border-gray-200 rounded-xl p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+              placeholder="Nro POS" 
+              value={nro} 
+              onChange={e=>setNro(e.target.value)} 
+            />
+            <Button onClick={generar} disabled={!nro} className="w-full">Generar QR</Button>
           </Card>
         </motion.div>
 
@@ -60,9 +65,9 @@ export default function Staff(){
               transition={{duration:0.4}}
             >
               <Card className="p-4 text-center">
-                <div className="text-sm text-gray-500">QR válido por</div>
+                <div className="text-sm text-gray-600">QR válido por</div>
                 <motion.div 
-                  className="text-3xl font-bold mb-3"
+                  className="text-3xl font-bold mb-3 text-gray-800"
                   key={secondsLeft}
                   initial={{scale:1.2}}
                   animate={{scale:1}}
@@ -79,7 +84,7 @@ export default function Staff(){
                   <QRCodeSVG value={token} size={220} />
                 </motion.div>
                 <div className="mt-3">
-                  <Button variant="secondary" onClick={generar}>Regenerar</Button>
+                  <Button variant="secondary" onClick={generar} className="w-full">Regenerar</Button>
                 </div>
               </Card>
             </motion.div>
