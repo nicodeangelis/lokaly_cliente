@@ -11,6 +11,10 @@ import Staff from "./pages/Staff";
 import Auth from "./pages/Auth";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import Benefits from "./pages/Benefits";
+import Locations from "./pages/Locations";
+import QRScanner from "./pages/QRScanner";
+import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +30,11 @@ const App = () => (
             <Route path="/l/:slug" element={<Landing />} />
             <Route path="/app/home" element={<Dashboard />} />
             <Route path="/app/scan" element={<Scan />} />
+            <Route path="/app/benefits" element={<Benefits />} />
+            <Route path="/app/locations" element={<Locations />} />
+            <Route path="/app/qr-scanner" element={<QRScanner />} />
             <Route path="/staff" element={<Staff />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/auth" element={<Auth />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

@@ -17,6 +17,7 @@ import {
   LogOut
 } from 'lucide-react';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
+import { supabase } from '@/integrations/supabase/client';
 
 // Mock user data
 const mockUser = {
@@ -85,7 +86,8 @@ function Dashboard() {
     setVisitas(mockVisitas);
   }, [navigate]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     localStorage.removeItem('lokaly_user_logged_in');
     localStorage.removeItem('lokaly_user_email');
     navigate('/');
@@ -215,17 +217,25 @@ function Dashboard() {
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <Button 
-                      onClick={() => navigate('/app/scan')}
+                      onClick={() => navigate('/app/qr-scanner')}
                       className="w-full gradient-brand text-primary-foreground"
                     >
                       <QrCode className="w-4 h-4 mr-2" />
                       Escanear QR
                     </Button>
-                    <Button variant="outline" className="w-full">
+                    <Button 
+                      variant="outline" 
+                      className="w-full"
+                      onClick={() => navigate('/app/benefits')}
+                    >
                       <Gift className="w-4 h-4 mr-2" />
                       Mis Beneficios
                     </Button>
-                    <Button variant="outline" className="w-full">
+                    <Button 
+                      variant="outline" 
+                      className="w-full"
+                      onClick={() => navigate('/app/locations')}
+                    >
                       <MapPin className="w-4 h-4 mr-2" />
                       Locales Cercanos
                     </Button>
