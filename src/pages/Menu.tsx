@@ -63,9 +63,14 @@ function Menu() {
   useEffect(() => {
     fetchLocales();
     const localIdFromUrl = searchParams.get('local');
-    if (localIdFromUrl) {
-      setSelectedLocal(localIdFromUrl);
-      fetchMenuData(localIdFromUrl);
+    const storeIdFromUrl = searchParams.get('storeId'); // From QR scan
+    
+    // Prioritize storeId (from QR scan) over local param
+    const targetLocalId = storeIdFromUrl || localIdFromUrl;
+    
+    if (targetLocalId) {
+      setSelectedLocal(targetLocalId);
+      fetchMenuData(targetLocalId);
     }
   }, [searchParams]);
 
@@ -248,13 +253,19 @@ function Menu() {
 
               {/* Menu Categories */}
               <Tabs defaultValue={categories[0]?.id} className="w-full">
-                <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 mb-6">
-                  {categories.map((category) => (
-                    <TabsTrigger key={category.id} value={category.id} className="text-sm">
-                      {category.nombre}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
+                <div className="mb-6 overflow-x-auto">
+                  <TabsList className="inline-flex h-12 items-center justify-start rounded-lg bg-muted p-1 text-muted-foreground min-w-full">
+                    {categories.map((category) => (
+                      <TabsTrigger 
+                        key={category.id} 
+                        value={category.id} 
+                        className="flex-shrink-0 text-sm px-4 py-2 whitespace-nowrap"
+                      >
+                        {category.nombre}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </div>
 
                 {filteredCategories.map((category) => (
                   <TabsContent key={category.id} value={category.id}>
