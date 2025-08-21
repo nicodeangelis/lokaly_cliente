@@ -127,15 +127,8 @@ function QRScanner() {
 
   const processQRCode = async (qrData: string) => {
     try {
-      // Parse QR data (expecting format: token:local_id:pos_number)
-      const [token, localId, posNumber] = qrData.split(':');
+      console.log('Processing QR data:', qrData);
       
-      if (!token || !localId) {
-        setScanResult('error');
-        setScanMessage('Código QR inválido');
-        return;
-      }
-
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         setScanResult('error');
@@ -143,92 +136,51 @@ function QRScanner() {
         return;
       }
 
-      // Verify QR token and process visit
-      const { data: qrToken, error: qrError } = await supabase
-        .from('qr_tokens')
-        .select(`
-          *,
-          local_id:locales(nombre),
-          staff_id:staff(user_id)
-        `)
-        .eq('token', token)
-        .eq('usado', false)
-        .gt('expire_at', new Date().toISOString())
-        .single();
+      // Use the redeem_qr_token RPC function
+      const { data, error } = await supabase.rpc('redeem_qr_token', {
+        p_token: qrData.trim(),
+        p_user_id: user.id
+      });
 
-      if (qrError || !qrToken) {
+      console.log('RPC response:', { data, error });
+
+      if (error) {
+        console.error('Error redeeming QR token:', error);
         setScanResult('error');
-        setScanMessage('Código QR expirado o inválido');
+        setScanMessage(
+          error.message.includes('Token no encontrado') ? 'Código QR inválido o expirado' :
+          error.message.includes('Token ya usado') ? 'Este código QR ya fue usado' :
+          error.message.includes('Solo una visita') ? 'Ya registraste una visita hoy en este local' :
+          'Error al procesar el código QR'
+        );
         return;
       }
 
-      // Mark token as used and create visit
-      const { error: updateError } = await supabase
-        .from('qr_tokens')
-        .update({ usado: true })
-        .eq('id', qrToken.id);
-
-      if (updateError) {
-        setScanResult('error');
-        setScanMessage('Error al procesar la visita');
-        return;
-      }
-
-      // Create visit record
-      const { error: visitError } = await supabase
-        .from('visitas')
-        .insert({
-          user_id: user.id,
-          local_id: qrToken.local_id,
-          puntos_obtenidos: qrToken.puntos_a_otorgar,
-          qr_token: token
+      // Type guard for the response data
+      const responseData = data as any;
+      
+      if (responseData && responseData.success) {
+        setScanResult('success');
+        setScanMessage(`¡Visita registrada! Has ganado ${responseData.puntos_otorgados} puntos en ${responseData.local_nombre}`);
+        
+        toast({
+          title: '¡Puntos ganados!',
+          description: `+${responseData.puntos_otorgados} puntos en ${responseData.local_nombre}`,
         });
 
-      if (visitError) {
-        console.error('Error creating visit:', visitError);
-      }
-
-      // Update user points
-      const { data: currentPoints } = await supabase
-        .from('puntos_usuario')
-        .select('puntos_totales')
-        .eq('user_id', user.id)
-        .single();
-
-      if (currentPoints) {
-        const newTotal = currentPoints.puntos_totales + qrToken.puntos_a_otorgar;
-        
-        // Update points
-        await supabase
-          .from('puntos_usuario')
-          .update({ puntos_totales: newTotal })
-          .eq('user_id', user.id);
-
-        // Check if level should be updated
-        const { data: newLevel } = await supabase
-          .from('niveles')
-          .select('id, nombre')
-          .lte('puntos_minimos', newTotal)
-          .or(`puntos_maximos.gte.${newTotal},puntos_maximos.is.null`)
-          .order('puntos_minimos', { ascending: false })
-          .limit(1)
-          .single();
-
-        if (newLevel) {
-          await supabase
-            .from('puntos_usuario')
-            .update({ nivel_actual: newLevel.id })
-            .eq('user_id', user.id);
+        // If level changed, show additional message
+        if (responseData.nivel_anterior !== responseData.nivel_actual) {
+          setTimeout(() => {
+            toast({
+              title: '¡Nivel alcanzado!',
+              description: `Has alcanzado el nivel ${responseData.nivel_actual}`,
+            });
+          }, 1000);
         }
+      } else {
+        setScanResult('error');
+        setScanMessage('Error al procesar el código QR');
       }
-
-      setScanResult('success');
-      setScanMessage(`¡Visita registrada! Has ganado ${qrToken.puntos_a_otorgar} puntos en ${qrToken.local_id.nombre}`);
-      
-      toast({
-        title: '¡Puntos ganados!',
-        description: `+${qrToken.puntos_a_otorgar} puntos en ${qrToken.local_id.nombre}`,
-      });
 
     } catch (error) {
       console.error('Error processing QR code:', error);
