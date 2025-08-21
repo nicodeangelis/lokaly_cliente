@@ -274,15 +274,17 @@ function QRScanner() {
                   {/* Camera View */}
                   <div className="relative">
                     <div className="aspect-square bg-muted rounded-lg overflow-hidden relative">
-                      {isScanning ? (
-                        <video 
-                          ref={videoRef}
-                          className="w-full h-full object-cover"
-                          autoPlay
-                          playsInline
-                          muted
-                        />
-                      ) : (
+                      {/* Video element always rendered but hidden when not scanning */}
+                      <video 
+                        ref={videoRef}
+                        className={`w-full h-full object-cover ${isScanning ? 'block' : 'hidden'}`}
+                        autoPlay
+                        playsInline
+                        muted
+                      />
+                      
+                      {/* Placeholder when not scanning */}
+                      {!isScanning && (
                         <div className="w-full h-full flex items-center justify-center">
                           <div className="text-center">
                             <Camera className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
