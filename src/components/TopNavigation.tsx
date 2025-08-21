@@ -37,9 +37,11 @@ export function TopNavigation() {
         <div className="flex items-center justify-between h-16">
           {/* Logo and Page Name - Left Aligned */}
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold text-secondary tracking-wider">
-              TDC
-            </h1>
+            <img 
+              src="/lovable-uploads/2394706d-1948-4eef-a7fc-7e0a49709e1b.png" 
+              alt="Tienda de Café" 
+              className="h-8 w-auto"
+            />
             {getPageName() && (
               <span className="text-lg text-muted-foreground">
                 {getPageName()}
