@@ -13,10 +13,13 @@ import {
   CheckCircle,
   Gift
 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Auth() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [step, setStep] = useState<'form' | 'success'>('form');
   const [email, setEmail] = useState('');
@@ -28,24 +31,82 @@ export default function Auth() {
     if (paramMode === 'register') {
       setMode('register');
     }
-  }, [searchParams]);
+
+    // Check if user is already logged in
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        navigate('/app/home');
+      }
+    };
+
+    checkAuth();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        navigate('/app/home');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [searchParams, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      if (mode === 'register') {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password: 'temporary123', // You might want to add password field
+          options: {
+            emailRedirectTo: `${window.location.origin}/app/home`,
+            data: {
+              nombre: nombre
+            }
+          }
+        });
+
+        if (error) {
+          toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive"
+          });
+          setIsLoading(false);
+          return;
+        }
+      } else {
+        const { error } = await supabase.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: `${window.location.origin}/app/home`
+          }
+        });
+
+        if (error) {
+          toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive"
+          });
+          setIsLoading(false);
+          return;
+        }
+      }
+
       setStep('success');
-      
-      // Simulate successful login/registration
-      setTimeout(() => {
-        localStorage.setItem('lokaly_user_logged_in', 'true');
-        localStorage.setItem('lokaly_user_email', email);
-        navigate('/app/home');
-      }, 2000);
-    }, 1500);
+      setIsLoading(false);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Algo salió mal. Por favor intenta de nuevo.",
+        variant: "destructive"
+      });
+      setIsLoading(false);
+    }
   };
 
   const toggleMode = () => {

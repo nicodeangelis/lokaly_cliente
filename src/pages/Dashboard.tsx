@@ -19,71 +19,126 @@ import {
 import { AnimatedBackground } from '@/components/AnimatedBackground';
 import { supabase } from '@/integrations/supabase/client';
 
-// Mock user data
-const mockUser = {
-  id: '1',
-  email: 'usuario@ejemplo.com',
-  nombre: 'Ana García',
-  nivel: 'plata',
-  puntos: 245,
-  puntosParaSiguienteNivel: 255,
-  totalVisitas: 12,
-  fechaRegistro: '2024-01-15'
-};
+interface UserData {
+  id: string;
+  email: string;
+  nombre: string;
+  puntos: number;
+  nivel: string;
+  totalVisitas: number;
+  fechaRegistro: string;
+  niveles?: {
+    nombre: string;
+    color: string;
+    icono: string;
+    puntos_minimos: number;
+    puntos_maximos: number;
+  };
+}
 
-const mockVisitas = [
-  {
-    id: '1',
-    local: 'Café del Centro',
-    fecha: '2024-12-18',
-    puntos: 25,
-    beneficio: 'Descuento 10%'
-  },
-  {
-    id: '2',
-    local: 'Parrilla del Puerto',
-    fecha: '2024-12-15',
-    puntos: 40,
-    beneficio: 'Entrada gratis'
-  },
-  {
-    id: '3',
-    local: 'Café del Centro',
-    fecha: '2024-12-10',
-    puntos: 20,
-    beneficio: null
-  }
-];
+interface VisitaData {
+  id: string;
+  local: string;
+  fecha: string;
+  puntos: number;
+  beneficio?: string;
+}
 
-const getLevelInfo = (nivel: string) => {
-  switch (nivel) {
-    case 'bronze':
-      return { name: 'Bronce', color: 'level-bronze', icon: '🥉', range: '0-100 pts' };
-    case 'plata':
-      return { name: 'Plata', color: 'level-plata', icon: '🥈', range: '101-500 pts' };
-    case 'oro':
-      return { name: 'Oro', color: 'level-oro', icon: '🥇', range: '500+ pts' };
-    default:
-      return { name: 'Bronce', color: 'level-bronze', icon: '🥉', range: '0-100 pts' };
-  }
+const getLevelInfo = (nivel: any) => {
+  if (!nivel) return { name: 'Bronce', color: 'text-orange-600', icon: '🥉', range: '0-100 pts' };
+  
+  return {
+    name: nivel.nombre,
+    color: `text-[${nivel.color}]`,
+    icon: nivel.icono,
+    range: `${nivel.puntos_minimos}${nivel.puntos_maximos ? `-${nivel.puntos_maximos}` : '+'} pts`
+  };
 };
 
 function Dashboard() {
-  const [user, setUser] = useState<any>(null);
-  const [visitas, setVisitas] = useState<any[]>([]);
+  const [user, setUser] = useState<UserData | null>(null);
+  const [visitas, setVisitas] = useState<VisitaData[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is logged in
-    const userLoggedIn = localStorage.getItem('lokaly_user_logged_in');
-    if (userLoggedIn !== 'true') {
-      navigate('/');
-      return;
-    }
+    const loadUserData = async () => {
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      
+      if (!authUser) {
+        navigate('/auth');
+        return;
+      }
 
-    // Load user data (simulation)
-    setUser(mockUser);
-    setVisitas(mockVisitas);
+      try {
+        // Get user profile
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', authUser.id)
+          .single();
+
+        // Get user points and level
+        const { data: userPoints } = await supabase
+          .from('puntos_usuario')
+          .select(`
+            puntos_totales,
+            nivel_actual:niveles(nombre, color, icono, puntos_minimos, puntos_maximos)
+          `)
+          .eq('user_id', authUser.id)
+          .single();
+
+        // Get user visits with location names
+        const { data: userVisits } = await supabase
+          .from('visitas')
+          .select(`
+            id,
+            created_at,
+            puntos_obtenidos,
+            locales(nombre),
+            beneficios(titulo)
+          `)
+          .eq('user_id', authUser.id)
+          .order('created_at', { ascending: false })
+          .limit(5);
+
+        // Count total visits
+        const { count: totalVisitas } = await supabase
+          .from('visitas')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', authUser.id);
+
+        if (profile && userPoints) {
+          setUser({
+            id: authUser.id,
+            email: profile.email,
+            nombre: profile.nombre,
+            puntos: userPoints.puntos_totales || 0,
+            nivel: userPoints.nivel_actual?.nombre || 'Bronce',
+            totalVisitas: totalVisitas || 0,
+            fechaRegistro: profile.fecha_registro,
+            niveles: userPoints.nivel_actual
+          });
+        }
+
+        if (userVisits) {
+          setVisitas(userVisits.map(visit => ({
+            id: visit.id,
+            local: visit.locales?.nombre || 'Local desconocido',
+            fecha: new Date(visit.created_at).toLocaleDateString(),
+            puntos: visit.puntos_obtenidos,
+            beneficio: visit.beneficios?.titulo || undefined
+          })));
+        }
+
+      } catch (error) {
+        console.error('Error loading user data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUserData();
   }, [navigate]);
 
   const handleLogout = async () => {
@@ -93,8 +148,21 @@ function Dashboard() {
     navigate('/');
   };
 
-  const progressToNextLevel = user ? (user.puntos / user.puntosParaSiguienteNivel) * 100 : 0;
-  const levelInfo = user ? getLevelInfo(user.nivel) : null;
+  const progressToNextLevel = user && user.niveles?.puntos_maximos 
+    ? (user.puntos / user.niveles.puntos_maximos) * 100 
+    : 0;
+  const levelInfo = user ? getLevelInfo(user.niveles) : null;
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p>Cargando tu dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!user) {
     return (
