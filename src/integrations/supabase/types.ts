@@ -71,6 +71,57 @@ export type Database = {
           },
         ]
       }
+      calificaciones_visita: {
+        Row: {
+          comentario: string | null
+          created_at: string
+          id: string
+          local_id: string
+          rating_atencion: number | null
+          rating_cafe: number | null
+          rating_local: number | null
+          user_id: string
+          visita_id: string
+        }
+        Insert: {
+          comentario?: string | null
+          created_at?: string
+          id?: string
+          local_id: string
+          rating_atencion?: number | null
+          rating_cafe?: number | null
+          rating_local?: number | null
+          user_id: string
+          visita_id: string
+        }
+        Update: {
+          comentario?: string | null
+          created_at?: string
+          id?: string
+          local_id?: string
+          rating_atencion?: number | null
+          rating_cafe?: number | null
+          rating_local?: number | null
+          user_id?: string
+          visita_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calificaciones_visita_local_id_fkey"
+            columns: ["local_id"]
+            isOneToOne: false
+            referencedRelation: "locales"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "calificaciones_visita_visita_id_fkey"
+            columns: ["visita_id"]
+            isOneToOne: false
+            referencedRelation: "visitas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       locales: {
         Row: {
           activo: boolean
@@ -254,6 +305,45 @@ export type Database = {
           puntos_maximos?: number | null
           puntos_minimos?: number
           updated_at?: string
+        }
+        Relationships: []
+      }
+      preferencias_usuario: {
+        Row: {
+          comentario: string | null
+          created_at: string
+          dulzor: number | null
+          extras: string[] | null
+          gusto_cafe: string | null
+          horario_pref: string[] | null
+          intensidad: number | null
+          tipo_leche: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          comentario?: string | null
+          created_at?: string
+          dulzor?: number | null
+          extras?: string[] | null
+          gusto_cafe?: string | null
+          horario_pref?: string[] | null
+          intensidad?: number | null
+          tipo_leche?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          comentario?: string | null
+          created_at?: string
+          dulzor?: number | null
+          extras?: string[] | null
+          gusto_cafe?: string | null
+          horario_pref?: string[] | null
+          intensidad?: number | null
+          tipo_leche?: string | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -479,12 +569,47 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      extract_date_immutable: {
+        Args: { "": string }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      redeem_qr_token: {
+        Args: {
+          p_comentario?: string
+          p_rating_atencion?: number
+          p_rating_cafe?: number
+          p_rating_local?: number
+          p_token: string
+          p_user_id: string
+        }
+        Returns: string
+      }
+      refrescar_nivel: {
+        Args: { p_user_id: string }
+        Returns: undefined
+      }
+      visit_from_wall_qr: {
+        Args: {
+          p_comentario_gustos?: string
+          p_dulzor?: number
+          p_extras?: string[]
+          p_gusto_cafe?: string
+          p_horario_pref?: string[]
+          p_intensidad?: number
+          p_local_id: string
+          p_puntos_bienvenida?: number
+          p_puntos_visita?: number
+          p_tipo_leche?: string
+          p_user_id: string
+        }
+        Returns: string
       }
     }
     Enums: {
