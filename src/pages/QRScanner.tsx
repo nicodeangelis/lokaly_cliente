@@ -71,12 +71,25 @@ function QRScanner() {
   };
 
   const startScanning = async () => {
-    if (!codeReader.current || !videoRef.current) return;
+    console.log('startScanning clicked');
+    
+    if (!codeReader.current || !videoRef.current) {
+      console.log('Missing codeReader or videoRef:', { 
+        codeReader: !!codeReader.current, 
+        videoRef: !!videoRef.current 
+      });
+      return;
+    }
 
     try {
+      console.log('Requesting camera permission...');
       const stream = await requestCameraPermission();
-      if (!stream) return;
+      if (!stream) {
+        console.log('No camera stream received');
+        return;
+      }
 
+      console.log('Camera permission granted, starting scan...');
       setIsScanning(true);
       setScanResult(null);
       setScanMessage('');
@@ -87,15 +100,20 @@ function QRScanner() {
       // Wait for video to load
       await new Promise((resolve) => {
         if (videoRef.current) {
-          videoRef.current.onloadedmetadata = () => resolve(true);
+          videoRef.current.onloadedmetadata = () => {
+            console.log('Video metadata loaded');
+            resolve(true);
+          };
         }
       });
 
+      console.log('Starting QR code detection...');
       codeReader.current.decodeFromVideoDevice(
         undefined,
         videoRef.current,
         (result, error) => {
           if (result) {
+            console.log('QR code detected:', result.getText());
             const qrData = result.getText();
             setScannedData(qrData);
             processQRCode(qrData);
