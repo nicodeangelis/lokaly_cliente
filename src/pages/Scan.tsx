@@ -198,8 +198,8 @@ export default function Scan() {
                           <div className="absolute inset-0 flex items-center justify-center">
                             <div className="border-2 border-primary bg-primary/10 rounded-lg w-48 h-48 flex items-center justify-center">
                               <motion.div
-                                animate={{ y: [-20, 20, -20] }}
-                                transition={{ duration: 2, repeat: Infinity }}
+                                animate={{ y: [-20, 20] }}
+                                transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}
                                 className="w-full h-0.5 bg-primary"
                               />
                             </div>

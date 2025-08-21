@@ -32,8 +32,8 @@ const NotFound = () => {
         >
           <motion.div
             initial={{ rotateY: 0 }}
-            animate={{ rotateY: [0, 15, -15, 0] }}
-            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+            animate={{ rotateY: [0, 15] }}
+            transition={{ duration: 1, repeat: Infinity, repeatType: "reverse", repeatDelay: 3 }}
             className="mb-8"
           >
             <div className="w-24 h-24 gradient-secondary rounded-full flex items-center justify-center mx-auto mb-6 shadow-elegant">

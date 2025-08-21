@@ -236,8 +236,8 @@ function Dashboard() {
                           className={`${levelInfo?.color} border rounded-full px-4 py-2 flex items-center gap-2 transition-all duration-300`}
                         >
                           <motion.span 
-                            animate={{ rotate: [0, 15, -15, 0] }}
-                            transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
+                            animate={{ rotate: [0, 15] }}
+                            transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse", repeatDelay: 2 }}
                             className="text-xl"
                           >
                             {levelInfo?.icon}
