@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, X, Gift, Star, ArrowRight } from 'lucide-react';
+import { ServiceRatingModal } from '@/components/ServiceRatingModal';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -29,6 +30,8 @@ export default function QRVisit() {
   const [status, setStatus] = useState<'checking' | 'success' | 'error' | 'auth_required'>('checking');
   const [qrData, setQRData] = useState<QRTokenData | null>(null);
   const [pointsAwarded, setPointsAwarded] = useState(0);
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [ratingLoading, setRatingLoading] = useState(false);
 
   useEffect(() => {
     const processQRScan = async () => {
@@ -94,20 +97,17 @@ export default function QRVisit() {
           return;
         }
 
-        // Create visit record
-        const { error: visitError } = await supabase
-          .from('visitas')
-          .insert({
-            user_id: user.id,
-            local_id: qrToken.local_id,
-            puntos_obtenidos: qrToken.puntos_a_otorgar,
-            qr_token: token
-          });
+        // Use the new RPC to process the QR redemption
+        const { data: visitId, error: redeemError } = await supabase.rpc('redeem_qr_token', {
+          p_user_id: user.id,
+          p_token: token
+        });
 
-        if (visitError) {
+        if (redeemError) {
+          console.error('Redeem error:', redeemError);
           toast({
             title: "Error",
-            description: "No se pudo registrar la visita. Intenta de nuevo.",
+            description: redeemError.message || "No se pudo procesar el QR.",
             variant: "destructive"
           });
           setStatus('error');
@@ -115,30 +115,9 @@ export default function QRVisit() {
           return;
         }
 
-        // Update user points
-        const { data: currentPoints } = await supabase
-          .from('puntos_usuario')
-          .select('puntos_totales')
-          .eq('user_id', user.id)
-          .single();
-
-        if (currentPoints) {
-          const newPoints = currentPoints.puntos_totales + qrToken.puntos_a_otorgar;
-          
-          await supabase
-            .from('puntos_usuario')
-            .update({ puntos_totales: newPoints })
-            .eq('user_id', user.id);
-        }
-
-        // Mark QR token as used
-        await supabase
-          .from('qr_tokens')
-          .update({ usado: true })
-          .eq('id', qrToken.id);
-
         setPointsAwarded(qrToken.puntos_a_otorgar);
         setStatus('success');
+        setShowRatingModal(true);
         
       } catch (error) {
         console.error('Error processing QR scan:', error);
@@ -150,6 +129,48 @@ export default function QRVisit() {
 
     processQRScan();
   }, [token, toast]);
+
+  const handleRatingSave = async (ratings: any) => {
+    if (!qrData) return;
+    
+    setRatingLoading(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Save the rating to calificaciones_visita table directly
+      const { error } = await supabase
+        .from('calificaciones_visita')
+        .insert({
+          user_id: user.id,
+          local_id: qrData.local_id,
+          visita_id: qrData.id, // We'll need to get this properly
+          rating_atencion: ratings.rating_atencion,
+          rating_local: ratings.rating_local,
+          rating_cafe: ratings.rating_cafe,
+          comentario: ratings.comentario
+        });
+
+      if (error) {
+        console.error('Rating error:', error);
+        toast({
+          title: "Error",
+          description: "No se pudo guardar la calificación.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "¡Gracias!",
+          description: "Tu calificación ha sido guardada.",
+        });
+      }
+    } catch (error) {
+      console.error('Error saving rating:', error);
+    } finally {
+      setRatingLoading(false);
+      setShowRatingModal(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -311,6 +332,17 @@ export default function QRVisit() {
           </Card>
         </motion.div>
       </div>
+
+      {qrData && (
+        <ServiceRatingModal
+          open={showRatingModal}
+          onClose={() => setShowRatingModal(false)}
+          onSave={handleRatingSave}
+          loading={ratingLoading}
+          localName={qrData.locales.nombre}
+          pointsEarned={pointsAwarded}
+        />
+      )}
     </>
   );
 }

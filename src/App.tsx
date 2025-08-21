@@ -17,6 +17,7 @@ import Benefits from "./pages/Benefits";
 import Locations from "./pages/Locations";
 import QRScanner from "./pages/QRScanner";
 import QRVisit from "./pages/QRVisit";
+import StoreVisit from "./pages/StoreVisit";
 import Menu from "./pages/Menu";
 import Admin from "./pages/Admin";
 
@@ -42,6 +43,7 @@ const App = () => (
                 <Route path="/app/qr-scanner" element={<QRScanner />} />
                 <Route path="/app/menu" element={<Menu />} />
                 <Route path="/visit/:token" element={<QRVisit />} />
+                <Route path="/store/:storeId" element={<StoreVisit />} />
                 <Route path="/staff" element={<Staff />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/auth" element={<Auth />} />
