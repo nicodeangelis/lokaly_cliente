@@ -1,0 +1,28 @@
+-- Update menu item images with working local images
+UPDATE menu_items SET imagen = '/src/assets/menu/ristretto.jpg' WHERE nombre = 'Ristretto (15 ml)';
+UPDATE menu_items SET imagen = '/src/assets/menu/espresso.jpg' WHERE nombre = 'Espresso (30 ml)';
+UPDATE menu_items SET imagen = '/src/assets/menu/espresso-porteno.jpg' WHERE nombre = 'Espresso Porteño';
+UPDATE menu_items SET imagen = '/src/assets/menu/espresso.jpg' WHERE nombre = 'Espresso Jarrito';
+UPDATE menu_items SET imagen = '/src/assets/menu/espresso.jpg' WHERE nombre = 'Doble Espresso';
+UPDATE menu_items SET imagen = '/src/assets/menu/espresso.jpg' WHERE nombre = 'Macchiato';
+UPDATE menu_items SET imagen = '/src/assets/menu/espresso.jpg' WHERE nombre = 'Cortado';
+UPDATE menu_items SET imagen = '/src/assets/menu/latte.jpg' WHERE nombre = 'Latte';
+UPDATE menu_items SET imagen = '/src/assets/menu/latte.jpg' WHERE nombre = 'Vainilla Latte';
+UPDATE menu_items SET imagen = '/src/assets/menu/cappuccino.jpg' WHERE nombre = 'Capuccino';
+UPDATE menu_items SET imagen = '/src/assets/menu/latte.jpg' WHERE nombre = 'Tazón café con leche';
+UPDATE menu_items SET imagen = '/src/assets/menu/hot-chocolate.jpg' WHERE nombre = 'Leche chocolatada';
+UPDATE menu_items SET imagen = '/src/assets/menu/flat-white.jpg' WHERE nombre = 'Flat White';
+UPDATE menu_items SET imagen = '/src/assets/menu/mocha.jpg' WHERE nombre = 'Mocha';
+UPDATE menu_items SET imagen = '/src/assets/menu/mocha.jpg' WHERE nombre = 'Mocha Blanco';
+UPDATE menu_items SET imagen = '/src/assets/menu/iced-latte.jpg' WHERE nombre = 'Iced Latte';
+UPDATE menu_items SET imagen = '/src/assets/menu/iced-latte.jpg' WHERE nombre = 'Vanilla Latte Iced';
+UPDATE menu_items SET imagen = '/src/assets/menu/mocha.jpg' WHERE nombre = 'Mocha Iced';
+UPDATE menu_items SET imagen = '/src/assets/menu/mocha.jpg' WHERE nombre = 'Mocha Blanco Iced';
+UPDATE menu_items SET imagen = '/src/assets/menu/espresso.jpg' WHERE nombre = 'Espresso Tonic';
+UPDATE menu_items SET imagen = '/src/assets/menu/cold-brew.jpg' WHERE nombre = 'Cold Brew';
+UPDATE menu_items SET imagen = '/src/assets/menu/earl-grey.jpg' WHERE nombre = 'Té';
+UPDATE menu_items SET imagen = '/src/assets/menu/earl-grey.jpg' WHERE nombre = 'Té de hierbas';
+UPDATE menu_items SET imagen = '/src/assets/menu/chai-latte.jpg' WHERE nombre = 'Tea Chai Latte';
+UPDATE menu_items SET imagen = '/src/assets/menu/earl-grey.jpg' WHERE nombre = 'Earl Grey';
+UPDATE menu_items SET imagen = '/src/assets/menu/earl-grey.jpg' WHERE nombre = 'Berries';
+UPDATE menu_items SET imagen = '/src/assets/menu/earl-grey.jpg' WHERE nombre LIKE '%hibiscus%';

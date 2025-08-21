@@ -20,6 +20,7 @@ import { AnimatedBackground } from '@/components/AnimatedBackground';
 import { BottomNavigation } from '@/components/BottomNavigation';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { getMenuItemImage } from '@/utils/menuImages';
 
 interface MenuItem {
   id: string;
@@ -275,15 +276,13 @@ function Menu() {
                           >
                             <Card className="h-full hover:shadow-medium transition-shadow">
                               <CardContent className="p-4">
-                                {item.imagen && (
-                                  <div className="aspect-video mb-3 rounded-lg overflow-hidden bg-muted">
-                                    <img
-                                      src={item.imagen}
-                                      alt={item.nombre}
-                                      className="w-full h-full object-cover"
-                                    />
-                                  </div>
-                                )}
+                                 <div className="aspect-video mb-3 rounded-lg overflow-hidden bg-muted">
+                                   <img
+                                     src={getMenuItemImage(item.nombre, item.imagen)}
+                                     alt={item.nombre}
+                                     className="w-full h-full object-cover"
+                                   />
+                                 </div>
                                 
                                 <div className="space-y-2">
                                   <div className="flex justify-between items-start">
