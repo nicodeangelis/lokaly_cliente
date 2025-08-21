@@ -237,7 +237,7 @@ function Dashboard() {
                       onClick={() => navigate('/app/locations')}
                     >
                       <MapPin className="w-4 h-4 mr-2" />
-                      Locales Cercanos
+                      Otros Locales
                     </Button>
                   </CardContent>
                 </Card>

@@ -108,10 +108,19 @@ const Index = () => {
               className="mt-12 space-y-4"
             >
               <Button 
-                onClick={() => navigate('/l/cafe-centro')}
+                onClick={() => navigate('/l/cafe-arregui')}
                 className="gradient-brand text-primary-foreground h-12 px-8 text-lg hover-lift hover-glow animate-pulse-subtle"
               >
-                Ver Demo - Café del Centro
+                Ver Demo - Tienda de Cafe Arregui
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+              
+              <Button 
+                onClick={() => navigate('/l/cafe-mendoza')}
+                variant="outline"
+                className="h-12 px-8 text-lg hover-lift"
+              >
+                Ver Demo - Tienda de Cafe Mendoza
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
               

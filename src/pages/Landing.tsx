@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { QrCode, Star, Gift, Users } from 'lucide-react';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
 
-// Mock data for demonstration
+// Mock data for demonstration - Including real coffee shops from DB
 const mockLocales = {
   'cafe-centro': {
     id: '1',
@@ -20,8 +20,28 @@ const mockLocales = {
     beneficio_bienvenida: '20% de descuento en tu primera compra',
     horarios: 'Lun-Vie: 7:00-22:00 | Sáb-Dom: 8:00-23:00'
   },
-  'parrilla-puerto': {
+  'cafe-arregui': {
     id: '2',
+    nombre: 'Tienda de Cafe - Local Arregui 6302',
+    slug: 'cafe-arregui',
+    direccion: 'Arregui 6302, Buenos Aires',
+    descripcion: 'Café artesanal con granos seleccionados y ambiente acogedor',
+    imagen: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&h=600&fit=crop',
+    beneficio_bienvenida: '15% de descuento en tu primera compra',
+    horarios: 'Lun-Vie: 7:00-19:00 | Sáb: 8:00-20:00 | Dom: 9:00-18:00'
+  },
+  'cafe-mendoza': {
+    id: '3',
+    nombre: 'Tienda de Cafe - Local Mendoza 2299',
+    slug: 'cafe-mendoza',
+    direccion: 'Mendoza 2299, Buenos Aires',
+    descripcion: 'Especialistas en café de origen con opciones veganas',
+    imagen: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&h=600&fit=crop',
+    beneficio_bienvenida: '20% de descuento + café gratis en tu primera visita',
+    horarios: 'Lun-Vie: 7:00-19:00 | Sáb: 8:00-20:00 | Dom: 9:00-18:00'
+  },
+  'parrilla-puerto': {
+    id: '4',
     nombre: 'Parrilla del Puerto',
     slug: 'parrilla-puerto',
     direccion: 'Puerto Madero 567, CABA',
