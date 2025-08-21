@@ -12,7 +12,7 @@ import {
   Trash2, 
   Trophy,
   Save,
-  Cancel
+  X
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -310,7 +310,7 @@ export function NivelesAdmin({ onUpdate }: NivelesAdminProps) {
                   onClick={() => setDialogOpen(false)}
                   className="flex-1"
                 >
-                  <Cancel className="w-4 h-4 mr-2" />
+                  <X className="w-4 h-4 mr-2" />
                   Cancelar
                 </Button>
               </div>

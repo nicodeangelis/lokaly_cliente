@@ -15,7 +15,7 @@ import {
   MapPin,
   Mail,
   Save,
-  Cancel
+  X
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -69,8 +69,7 @@ export function StaffAdmin({ onUpdate }: StaffAdminProps) {
         .from('staff')
         .select(`
           *,
-          local_id:locales(id, nombre),
-          profiles:user_id(email, nombre)
+          locales!staff_local_id_fkey(id, nombre)
         `)
         .order('created_at', { ascending: false }),
       supabase
@@ -86,8 +85,22 @@ export function StaffAdmin({ onUpdate }: StaffAdminProps) {
         description: 'Error al cargar el staff',
         variant: 'destructive'
       });
-    } else {
-      setStaff(staffRes.data || []);
+    } else if (staffRes.data) {
+      // Get user profiles separately
+      const userIds = staffRes.data.map(s => s.user_id);
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, email, nombre')
+        .in('id', userIds);
+
+      // Merge profiles with staff data
+      const staffWithProfiles = staffRes.data.map(s => ({
+        ...s,
+        local_id: s.locales,
+        profiles: profiles?.find(p => p.id === s.user_id) || { email: '', nombre: '' }
+      }));
+      
+      setStaff(staffWithProfiles);
     }
 
     if (localesRes.data) setLocales(localesRes.data);
@@ -345,7 +358,7 @@ export function StaffAdmin({ onUpdate }: StaffAdminProps) {
                   onClick={() => setDialogOpen(false)}
                   className="flex-1"
                 >
-                  <Cancel className="w-4 h-4 mr-2" />
+                  <X className="w-4 h-4 mr-2" />
                   Cancelar
                 </Button>
               </div>
