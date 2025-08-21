@@ -85,6 +85,11 @@ function Menu() {
       if (error) throw error;
 
       setLocales(data || []);
+      
+      // Set loading to false after fetching locales if no local is selected
+      if (!selectedLocal) {
+        setLoading(false);
+      }
     } catch (error) {
       console.error('Error fetching locales:', error);
       toast({
@@ -92,6 +97,7 @@ function Menu() {
         description: 'No se pudieron cargar los locales',
         variant: 'destructive'
       });
+      setLoading(false);
     }
   };
 
@@ -104,9 +110,20 @@ function Menu() {
         .from('locales')
         .select('id, nombre, direccion, telefono')
         .eq('id', localId)
-        .single();
+        .maybeSingle();
 
       if (localError) throw localError;
+      
+      if (!localData) {
+        toast({
+          title: 'Error',
+          description: 'Local no encontrado',
+          variant: 'destructive'
+        });
+        setLoading(false);
+        return;
+      }
+      
       setLocal(localData);
 
       // Fetch categories with menu items
@@ -129,9 +146,9 @@ function Menu() {
       if (itemsError) throw itemsError;
 
       // Group items by category
-      const categoriesWithItems = categoriesData.map(category => ({
+      const categoriesWithItems = (categoriesData || []).map(category => ({
         ...category,
-        items: itemsData.filter(item => item.categoria_id === category.id)
+        items: (itemsData || []).filter(item => item.categoria_id === category.id)
       }));
 
       setCategories(categoriesWithItems);
