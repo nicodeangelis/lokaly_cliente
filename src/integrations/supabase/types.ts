@@ -14,16 +14,379 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      beneficios: {
+        Row: {
+          activo: boolean
+          created_at: string
+          descripcion: string | null
+          id: string
+          local_id: string | null
+          nivel_requerido: string | null
+          puntos_requeridos: number | null
+          tipo: string
+          titulo: string
+          updated_at: string
+          valor: string
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          local_id?: string | null
+          nivel_requerido?: string | null
+          puntos_requeridos?: number | null
+          tipo: string
+          titulo: string
+          updated_at?: string
+          valor: string
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          local_id?: string | null
+          nivel_requerido?: string | null
+          puntos_requeridos?: number | null
+          tipo?: string
+          titulo?: string
+          updated_at?: string
+          valor?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "beneficios_local_id_fkey"
+            columns: ["local_id"]
+            isOneToOne: false
+            referencedRelation: "locales"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "beneficios_nivel_requerido_fkey"
+            columns: ["nivel_requerido"]
+            isOneToOne: false
+            referencedRelation: "niveles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      locales: {
+        Row: {
+          activo: boolean
+          created_at: string
+          descripcion: string | null
+          direccion: string
+          email: string | null
+          horarios: Json | null
+          id: string
+          imagen: string | null
+          latitud: number | null
+          longitud: number | null
+          nombre: string
+          telefono: string | null
+          updated_at: string
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          descripcion?: string | null
+          direccion: string
+          email?: string | null
+          horarios?: Json | null
+          id?: string
+          imagen?: string | null
+          latitud?: number | null
+          longitud?: number | null
+          nombre: string
+          telefono?: string | null
+          updated_at?: string
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          descripcion?: string | null
+          direccion?: string
+          email?: string | null
+          horarios?: Json | null
+          id?: string
+          imagen?: string | null
+          latitud?: number | null
+          longitud?: number | null
+          nombre?: string
+          telefono?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      niveles: {
+        Row: {
+          color: string
+          created_at: string
+          descripcion: string | null
+          icono: string
+          id: string
+          nombre: string
+          puntos_maximos: number | null
+          puntos_minimos: number
+          updated_at: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          descripcion?: string | null
+          icono?: string
+          id?: string
+          nombre: string
+          puntos_maximos?: number | null
+          puntos_minimos: number
+          updated_at?: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          descripcion?: string | null
+          icono?: string
+          id?: string
+          nombre?: string
+          puntos_maximos?: number | null
+          puntos_minimos?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          fecha_registro: string
+          id: string
+          nombre: string
+          telefono: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          fecha_registro?: string
+          id: string
+          nombre: string
+          telefono?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          fecha_registro?: string
+          id?: string
+          nombre?: string
+          telefono?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      puntos_usuario: {
+        Row: {
+          created_at: string
+          id: string
+          nivel_actual: string | null
+          puntos_totales: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          nivel_actual?: string | null
+          puntos_totales?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          nivel_actual?: string | null
+          puntos_totales?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "puntos_usuario_nivel_actual_fkey"
+            columns: ["nivel_actual"]
+            isOneToOne: false
+            referencedRelation: "niveles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      qr_tokens: {
+        Row: {
+          created_at: string
+          expire_at: string
+          id: string
+          local_id: string
+          nro_pos: string
+          puntos_a_otorgar: number
+          staff_id: string
+          token: string
+          usado: boolean
+        }
+        Insert: {
+          created_at?: string
+          expire_at: string
+          id?: string
+          local_id: string
+          nro_pos: string
+          puntos_a_otorgar?: number
+          staff_id: string
+          token: string
+          usado?: boolean
+        }
+        Update: {
+          created_at?: string
+          expire_at?: string
+          id?: string
+          local_id?: string
+          nro_pos?: string
+          puntos_a_otorgar?: number
+          staff_id?: string
+          token?: string
+          usado?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qr_tokens_local_id_fkey"
+            columns: ["local_id"]
+            isOneToOne: false
+            referencedRelation: "locales"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qr_tokens_staff_id_fkey"
+            columns: ["staff_id"]
+            isOneToOne: false
+            referencedRelation: "staff"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      staff: {
+        Row: {
+          activo: boolean
+          created_at: string
+          id: string
+          local_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          id?: string
+          local_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          id?: string
+          local_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "staff_local_id_fkey"
+            columns: ["local_id"]
+            isOneToOne: false
+            referencedRelation: "locales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      visitas: {
+        Row: {
+          beneficio_aplicado: string | null
+          created_at: string
+          id: string
+          local_id: string
+          puntos_obtenidos: number
+          qr_token: string | null
+          user_id: string
+        }
+        Insert: {
+          beneficio_aplicado?: string | null
+          created_at?: string
+          id?: string
+          local_id: string
+          puntos_obtenidos?: number
+          qr_token?: string | null
+          user_id: string
+        }
+        Update: {
+          beneficio_aplicado?: string | null
+          created_at?: string
+          id?: string
+          local_id?: string
+          puntos_obtenidos?: number
+          qr_token?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visitas_beneficio_aplicado_fkey"
+            columns: ["beneficio_aplicado"]
+            isOneToOne: false
+            referencedRelation: "beneficios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "visitas_local_id_fkey"
+            columns: ["local_id"]
+            isOneToOne: false
+            referencedRelation: "locales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "staff" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +513,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "staff", "user"],
+    },
   },
 } as const
