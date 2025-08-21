@@ -15,6 +15,7 @@ import Benefits from "./pages/Benefits";
 import Locations from "./pages/Locations";
 import QRScanner from "./pages/QRScanner";
 import QRVisit from "./pages/QRVisit";
+import Menu from "./pages/Menu";
 import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/app/benefits" element={<Benefits />} />
             <Route path="/app/locations" element={<Locations />} />
             <Route path="/app/qr-scanner" element={<QRScanner />} />
+            <Route path="/app/menu" element={<Menu />} />
             <Route path="/visit/:token" element={<QRVisit />} />
             <Route path="/staff" element={<Staff />} />
             <Route path="/admin" element={<Admin />} />

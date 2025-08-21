@@ -12,6 +12,7 @@ import {
   QrCode
 } from 'lucide-react';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
+import { BottomNavigation } from '@/components/BottomNavigation';
 import { BrowserMultiFormatReader } from '@zxing/library';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -68,14 +69,24 @@ function QRScanner() {
   const startScanning = async () => {
     if (!codeReader.current || !videoRef.current) return;
 
-    const stream = await requestCameraPermission();
-    if (!stream) return;
-
-    setIsScanning(true);
-    setScanResult(null);
-    setScanMessage('');
-
     try {
+      const stream = await requestCameraPermission();
+      if (!stream) return;
+
+      setIsScanning(true);
+      setScanResult(null);
+      setScanMessage('');
+
+      // Assign stream to video element first
+      videoRef.current.srcObject = stream;
+      
+      // Wait for video to load
+      await new Promise((resolve) => {
+        if (videoRef.current) {
+          videoRef.current.onloadedmetadata = () => resolve(true);
+        }
+      });
+
       codeReader.current.decodeFromVideoDevice(
         undefined,
         videoRef.current,
@@ -387,6 +398,12 @@ function QRScanner() {
 
           </div>
         </div>
+        
+        {/* Bottom Navigation */}
+        <BottomNavigation />
+        
+        {/* Bottom padding to avoid overlap with navigation */}
+        <div className="h-20"></div>
       </div>
     </>
   );

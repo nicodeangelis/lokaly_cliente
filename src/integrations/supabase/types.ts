@@ -119,6 +119,108 @@ export type Database = {
         }
         Relationships: []
       }
+      menu_categorias: {
+        Row: {
+          activo: boolean
+          created_at: string
+          descripcion: string | null
+          id: string
+          nombre: string
+          orden: number
+          updated_at: string
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          nombre: string
+          orden?: number
+          updated_at?: string
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          nombre?: string
+          orden?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      menu_items: {
+        Row: {
+          alergenos: string[] | null
+          categoria_id: string
+          created_at: string
+          descripcion: string | null
+          disponible: boolean
+          id: string
+          imagen: string | null
+          ingredientes: string[] | null
+          local_id: string
+          nombre: string
+          orden: number
+          precio: number
+          sin_gluten: boolean
+          updated_at: string
+          vegano: boolean
+          vegetariano: boolean
+        }
+        Insert: {
+          alergenos?: string[] | null
+          categoria_id: string
+          created_at?: string
+          descripcion?: string | null
+          disponible?: boolean
+          id?: string
+          imagen?: string | null
+          ingredientes?: string[] | null
+          local_id: string
+          nombre: string
+          orden?: number
+          precio: number
+          sin_gluten?: boolean
+          updated_at?: string
+          vegano?: boolean
+          vegetariano?: boolean
+        }
+        Update: {
+          alergenos?: string[] | null
+          categoria_id?: string
+          created_at?: string
+          descripcion?: string | null
+          disponible?: boolean
+          id?: string
+          imagen?: string | null
+          ingredientes?: string[] | null
+          local_id?: string
+          nombre?: string
+          orden?: number
+          precio?: number
+          sin_gluten?: boolean
+          updated_at?: string
+          vegano?: boolean
+          vegetariano?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "menu_items_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "menu_categorias"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "menu_items_local_id_fkey"
+            columns: ["local_id"]
+            isOneToOne: false
+            referencedRelation: "locales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       niveles: {
         Row: {
           color: string

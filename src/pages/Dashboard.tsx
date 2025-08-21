@@ -17,7 +17,9 @@ import {
   LogOut
 } from 'lucide-react';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
+import { BottomNavigation } from '@/components/BottomNavigation';
 import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 interface UserData {
   id: string;
@@ -364,6 +366,12 @@ function Dashboard() {
 
           </div>
         </div>
+        
+        {/* Bottom Navigation */}
+        <BottomNavigation />
+        
+        {/* Bottom padding to avoid overlap with navigation */}
+        <div className="h-20"></div>
       </div>
     </>
   );

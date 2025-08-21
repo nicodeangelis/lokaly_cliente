@@ -23,6 +23,7 @@ import { LocalesAdmin } from '@/components/admin/LocalesAdmin';
 import { BeneficiosAdmin } from '@/components/admin/BeneficiosAdmin';
 import { StaffAdmin } from '@/components/admin/StaffAdmin';
 import { NivelesAdmin } from '@/components/admin/NivelesAdmin';
+import { MenuAdmin } from '@/components/admin/MenuAdmin';
 
 interface Stats {
   totalLocales: number;
@@ -204,10 +205,14 @@ function Admin() {
             transition={{ delay: 0.2 }}
           >
             <Tabs defaultValue="locales" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-5">
                 <TabsTrigger value="locales" className="flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
                   Locales
+                </TabsTrigger>
+                <TabsTrigger value="menu" className="flex items-center gap-2">
+                  <Settings className="w-4 h-4" />
+                  Menú
                 </TabsTrigger>
                 <TabsTrigger value="beneficios" className="flex items-center gap-2">
                   <Gift className="w-4 h-4" />
@@ -225,6 +230,10 @@ function Admin() {
 
               <TabsContent value="locales">
                 <LocalesAdmin onUpdate={loadStats} />
+              </TabsContent>
+
+              <TabsContent value="menu">
+                <MenuAdmin />
               </TabsContent>
 
               <TabsContent value="beneficios">

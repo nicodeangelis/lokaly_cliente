@@ -12,7 +12,9 @@ import {
   Navigation
 } from 'lucide-react';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
+import { BottomNavigation } from '@/components/BottomNavigation';
 import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 import { Loader } from '@googlemaps/js-api-loader';
 
 interface Local {
@@ -306,6 +308,12 @@ function Locations() {
             </div>
           </div>
         </div>
+        
+        {/* Bottom Navigation */}
+        <BottomNavigation />
+        
+        {/* Bottom padding to avoid overlap with navigation */}
+        <div className="h-20"></div>
       </div>
     </>
   );
