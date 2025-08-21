@@ -1,120 +1,73 @@
-# Lokaly – CRM de Fidelización para Gastronomía
+# Welcome to your Lovable project
 
-Lokaly es un **CRM de fidelización** para gastronomía que permite a los clientes escanear QR de locales, registrarse, recibir beneficios y acumular puntos.
+## Project info
 
-## Stack Tecnológico
+**URL**: https://lovable.dev/projects/816bd2b4-50e0-4547-8c99-6d32e6fcb3c7
 
-- **Frontend**: React + TypeScript (Vite), React Router, Tailwind CSS, Framer Motion
-- **Backend**: Express + TypeScript
-- **Base de Datos**: Supabase (PostgreSQL)
-- **Autenticación**: Supabase Auth
-- **Notificaciones**: Web Push (VAPID)
-- **QR**: qrcode.react + html5-qrcode
+## How can I edit this code?
 
-## Estructura del Proyecto
+There are several ways of editing your application.
 
-```
-lokaly/
-├── apps/
-│   ├── web/          # React app (cliente/mesera)
-│   └── api/          # Express API (QR, Web Push)
-└── sql/              # Scripts SQL (ya ejecutados)
-```
+**Use Lovable**
 
-## Instalación
+Simply visit the [Lovable Project](https://lovable.dev/projects/816bd2b4-50e0-4547-8c99-6d32e6fcb3c7) and start prompting.
 
-### 1. Clonar y instalar dependencias
+Changes made via Lovable will be committed automatically to this repo.
 
-```bash
-git clone <repo-url>
-cd lokaly
+**Use your preferred IDE**
 
-# Instalar dependencias de la web app
-cd apps/web
-pnpm install
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-# Instalar dependencias de la API
-cd ../api
-pnpm install
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+Follow these steps:
+
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
+
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
+
+# Step 3: Install the necessary dependencies.
+npm i
+
+# Step 4: Start the development server with auto-reloading and an instant preview.
+npm run dev
 ```
 
-### 2. Configurar variables de entorno
+**Edit a file directly in GitHub**
 
-**apps/api/.env**
-```env
-PORT=8080
-SUPABASE_URL=<<TU_SUPABASE_URL>>
-SUPABASE_SERVICE_ROLE=<<TU_SERVICE_ROLE_KEY>>
-WEB_PUSH_VAPID_PUBLIC_KEY=<<GENERAR>>
-WEB_PUSH_VAPID_PRIVATE_KEY=<<GENERAR>>
-WEB_PUSH_SUBJECT=mailto:soporte@lokaly.app
-```
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
 
-**apps/web/.env**
-```env
-VITE_SUPABASE_URL=<<TU_SUPABASE_URL>>
-VITE_SUPABASE_ANON_KEY=<<TU_ANON_KEY>>
-VITE_API_URL=http://localhost:8080
-VITE_WEB_PUSH_PUBLIC_KEY=<<MISMO_PUBLIC_KEY_QUE_API>>
-```
+**Use GitHub Codespaces**
 
-### 3. Generar claves VAPID (una vez)
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-```bash
-cd apps/api
-node -e "const webpush = require('web-push'); console.log(webpush.generateVAPIDKeys())"
-```
+## What technologies are used for this project?
 
-## Ejecutar el Proyecto
+This project is built with:
 
-### Desarrollo
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
 
-```bash
-# Terminal 1: API
-cd apps/api
-pnpm dev
+## How can I deploy this project?
 
-# Terminal 2: Web App
-cd apps/web
-pnpm dev
-```
+Simply open [Lovable](https://lovable.dev/projects/816bd2b4-50e0-4547-8c99-6d32e6fcb3c7) and click on Share -> Publish.
 
-- **API**: http://localhost:8080
-- **Web App**: http://localhost:5173
+## Can I connect a custom domain to my Lovable project?
 
-## Flujo de Uso
+Yes, you can!
 
-1. **Cliente escanea QR del local** (`/l/:slug`)
-   - Si no está logueado → magic link por email
-   - Si está logueado → registra visita y redirige a dashboard
+To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-2. **Mesera genera QR para pedido** (`/staff`)
-   - Ingresa slug del local y número de POS
-   - Genera QR efímero válido por 5 minutos
-
-3. **Cliente escanea QR del pedido** (`/app/scan`)
-   - Abre cámara y lee QR
-   - Suma puntos automáticamente
-
-4. **Dashboard del cliente** (`/app/home`)
-   - Muestra nivel (bronce/plata/oro) y puntos
-   - Suscribe a notificaciones push
-
-## Endpoints API
-
-- `POST /api/qr/generar` - Genera QR efímero para pedido
-- `POST /api/push/subscribe` - Suscribe a notificaciones
-- `POST /api/push/send` - Envía notificación push
-
-## Próximos Pasos
-
-- [ ] Tabla `push_subscriptions` en Supabase
-- [ ] Trigger para cupón de bienvenida
-- [ ] Panel de administración para dueños
-- [ ] Estadísticas y reportes
-
-## Notas
-
-- El proyecto asume que el schema SQL y las funciones RPC ya están creadas en Supabase
-- Las notificaciones push están en memoria (demo)
-- RLS (Row Level Security) debe estar configurado en Supabase
+Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
