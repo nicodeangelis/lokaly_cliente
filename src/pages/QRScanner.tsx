@@ -156,26 +156,50 @@ function QRScanner() {
         return;
       }
 
-      // Type guard for the response data
-      const responseData = data as any;
-      
-      if (responseData && responseData.success) {
+      // The RPC function returns the visit_id on success
+      if (data) {
         setScanResult('success');
-        setScanMessage(`¡Visita registrada! Has ganado ${responseData.puntos_otorgados} puntos en ${responseData.local_nombre}`);
+        
+        // Get additional info about the points earned
+        const { data: visitData } = await supabase
+          .from('visitas')
+          .select(`
+            puntos_obtenidos,
+            locales(nombre)
+          `)
+          .eq('id', data)
+          .single();
+        
+        const puntos = visitData?.puntos_obtenidos || 50;
+        const localName = visitData?.locales?.nombre || 'Local';
+        
+        setScanMessage(`¡Visita registrada! Has ganado ${puntos} puntos en ${localName}`);
         
         toast({
           title: '¡Puntos ganados!',
-          description: `+${responseData.puntos_otorgados} puntos en ${responseData.local_nombre}`,
+          description: `+${puntos} puntos en ${localName}`,
         });
 
-        // If level changed, show additional message
-        if (responseData.nivel_anterior !== responseData.nivel_actual) {
-          setTimeout(() => {
-            toast({
-              title: '¡Nivel alcanzado!',
-              description: `Has alcanzado el nivel ${responseData.nivel_actual}`,
-            });
-          }, 1000);
+        // Check if user leveled up by getting updated user points
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data: userPoints } = await supabase
+            .from('puntos_usuario')
+            .select(`
+              puntos_totales,
+              niveles!nivel_actual(nombre)
+            `)
+            .eq('user_id', user.id)
+            .single();
+          
+          if (userPoints?.niveles?.nombre) {
+            setTimeout(() => {
+              toast({
+                title: '¡Puntos actualizados!',
+                description: `Nivel actual: ${userPoints.niveles.nombre}`,
+              });
+            }, 1000);
+          }
         }
       } else {
         setScanResult('error');
@@ -346,6 +370,12 @@ function QRScanner() {
                       <li>• Mantén el dispositivo estable</li>
                       <li>• El escaneo es automático</li>
                     </ul>
+                    
+                    <div className="mt-4 p-3 bg-info/10 rounded-lg border border-info/20">
+                      <p className="font-medium text-info">Tokens de prueba disponibles:</p>
+                      <p className="text-xs text-info/80">TEST_QR_001, TEST_QR_002, TEST_QR_003, TEST_QR_004, TEST_QR_005</p>
+                      <p className="text-xs text-info/80 mt-1">Usa estos códigos para probar el escáner</p>
+                    </div>
                   </div>
 
                 </CardContent>
