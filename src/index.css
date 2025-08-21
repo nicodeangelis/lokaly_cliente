@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -48,34 +48,27 @@
     --input: 0 0% 94%;
     --ring: 29 42% 65%;
 
-    /* Gradients */
-    --gradient-brand: linear-gradient(135deg, hsl(25 95% 53%), hsl(0 72% 51%));
-    --gradient-subtle: linear-gradient(135deg, hsl(25 95% 97%), hsl(20 14.3% 99%));
-    --gradient-loyalty: linear-gradient(135deg, hsl(142 71% 45%), hsl(25 95% 53%));
+    /* Gradients - TDC style */
+    --gradient-brand: linear-gradient(135deg, hsl(29 42% 65%), hsl(29 42% 75%));
+    --gradient-subtle: linear-gradient(135deg, hsl(0 0% 98%), hsl(29 42% 97%));
+    --gradient-button: linear-gradient(135deg, hsl(29 42% 65%), hsl(29 42% 58%));
 
-    /* Shadows */
-    --shadow-soft: 0 2px 10px -3px hsl(25 95% 53% / 0.1);
-    --shadow-medium: 0 8px 25px -5px hsl(25 95% 53% / 0.15);
-    --shadow-strong: 0 20px 40px -12px hsl(25 95% 53% / 0.25);
+    /* Shadows - Soft and elegant */
+    --shadow-soft: 0 2px 8px -2px hsl(0 0% 0% / 0.1);
+    --shadow-medium: 0 4px 16px -4px hsl(0 0% 0% / 0.15);
+    --shadow-strong: 0 8px 32px -8px hsl(0 0% 0% / 0.25);
 
     /* Layout */
-    --radius: 0.75rem;
+    --radius: 8px;
 
     --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-foreground: 0 0% 15%;
+    --sidebar-primary: 29 42% 65%;
+    --sidebar-primary-foreground: 0 0% 15%;
+    --sidebar-accent: 29 42% 95%;
+    --sidebar-accent-foreground: 0 0% 15%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: 29 42% 65%;
   }
 
   .dark {
@@ -106,14 +99,14 @@
     --border: 0 0% 22%;
     --input: 0 0% 18%;
     --ring: 29 42% 70%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 12%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 29 42% 70%;
+    --sidebar-primary-foreground: 0 0% 15%;
+    --sidebar-accent: 0 0% 18%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 22%;
+    --sidebar-ring: 29 42% 70%;
   }
 }
 
@@ -123,11 +116,13 @@
   }
 
   body {
-    @apply bg-background text-foreground font-inter;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Open Sans', 'Inter', system-ui, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-playfair;
+    @apply font-bold;
+    font-family: 'Open Sans', 'Inter', system-ui, sans-serif;
   }
 }
 
@@ -141,8 +136,8 @@
     background: var(--gradient-subtle);
   }
   
-  .gradient-loyalty {
-    background: var(--gradient-loyalty);
+  .gradient-button {
+    background: var(--gradient-button);
   }
   
   .shadow-soft {

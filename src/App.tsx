@@ -31,7 +31,7 @@ const App = () => (
         <BrowserRouter>
           <div className="min-h-screen bg-background">
             <TopNavigation />
-            <main className="pt-14 pb-20">
+            <main className="pt-16 pb-20">
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/l/:slug" element={<Landing />} />
