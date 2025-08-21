@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { TopNavigation } from "./components/TopNavigation";
+import { BottomNavigation } from "./components/BottomNavigation";
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import Scan from "./pages/Scan";
@@ -27,22 +29,28 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/l/:slug" element={<Landing />} />
-            <Route path="/app/home" element={<Dashboard />} />
-            <Route path="/app/scan" element={<Scan />} />
-            <Route path="/app/benefits" element={<Benefits />} />
-            <Route path="/app/locations" element={<Locations />} />
-            <Route path="/app/qr-scanner" element={<QRScanner />} />
-            <Route path="/app/menu" element={<Menu />} />
-            <Route path="/visit/:token" element={<QRVisit />} />
-            <Route path="/staff" element={<Staff />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/auth" element={<Auth />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <div className="min-h-screen bg-background">
+            <TopNavigation />
+            <main className="pt-14 pb-20">
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/l/:slug" element={<Landing />} />
+                <Route path="/app/home" element={<Dashboard />} />
+                <Route path="/app/scan" element={<Scan />} />
+                <Route path="/app/benefits" element={<Benefits />} />
+                <Route path="/app/locations" element={<Locations />} />
+                <Route path="/app/qr-scanner" element={<QRScanner />} />
+                <Route path="/app/menu" element={<Menu />} />
+                <Route path="/visit/:token" element={<QRVisit />} />
+                <Route path="/staff" element={<Staff />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/auth" element={<Auth />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <BottomNavigation />
+          </div>
         </BrowserRouter>
       </TooltipProvider>
     </HelmetProvider>

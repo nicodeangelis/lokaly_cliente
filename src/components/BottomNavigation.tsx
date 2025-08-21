@@ -34,7 +34,7 @@ export function BottomNavigation() {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border z-50">
+    <div className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-sm border-t border-border z-50 mt-14">
       <div className="container mx-auto px-4">
         <div className="flex justify-around items-center py-2">
           {navItems.map((item) => {
