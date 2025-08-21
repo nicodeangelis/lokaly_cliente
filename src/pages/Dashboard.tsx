@@ -254,7 +254,7 @@ function Dashboard() {
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>Progreso al siguiente nivel</span>
-                        <span>{user.puntosParaSiguienteNivel - user.puntos} puntos restantes</span>
+                        <span>{user.niveles?.puntos_maximos ? user.niveles.puntos_maximos - user.puntos : 0} puntos restantes</span>
                       </div>
                       <Progress value={progressToNextLevel} className="h-3" />
                     </div>

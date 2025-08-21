@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Store, QrCode, Trophy, Users, ArrowRight } from 'lucide-react';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
 import { FloatingParticles } from '@/components/FloatingParticles';
+import QRCodeDemo from '@/components/QRCodeDemo';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -101,10 +102,39 @@ const Index = () => {
               </motion.div>
             </div>
 
+            {/* QR Demo Section */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.6 }}
+              className="mt-16 space-y-8"
+            >
+              <div className="text-center">
+                <h2 className="text-3xl font-bold mb-4">Demo QR Codes</h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Escanea estos códigos QR con la cámara de tu móvil para probar el sistema de puntos
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <QRCodeDemo 
+                  token="cafe-arregui-demo"
+                  localName="Tienda de Cafe Arregui"
+                  points={10}
+                />
+                <QRCodeDemo 
+                  token="cafe-mendoza-demo"
+                  localName="Tienda de Cafe Mendoza"
+                  points={10}
+                />
+              </div>
+            </motion.div>
+
+            {/* Demo Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
               className="mt-12 space-y-4"
             >
               <Button 
