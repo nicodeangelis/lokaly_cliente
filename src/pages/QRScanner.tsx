@@ -30,11 +30,15 @@ function QRScanner() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { user }, error } = await supabase.auth.getUser();
+      console.log('QRScanner - Auth check:', { user, error });
+      
       if (!user) {
-        navigate('/');
+        console.log('QRScanner - No user found, redirecting to auth');
+        navigate('/auth');
         return;
       }
+      console.log('QRScanner - User authenticated:', user.id);
     };
 
     checkAuth();
